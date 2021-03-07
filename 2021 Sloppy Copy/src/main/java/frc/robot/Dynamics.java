@@ -7,9 +7,6 @@ public final class Dynamics{
     // * * * * GLOBAL DYNAMIC VARIABLES * * * * 
     //these are variables are for communication between commands dynamically
 
-        //the time between scheduler runs (normally should be 0.02, but why not get the actual value) -> updated from RobotPeriodic
-        public static double periodtime;
-
         //controller button variables -> this this makes it more simple to just access a controller button, and let the actual layout used be determined elsewhere
         public static int controllerButton_A;
         public static int controllerButton_B;
@@ -27,6 +24,30 @@ public final class Dynamics{
         public static int controllerStick_rx;
         public static int controllerTrigger_l;
         public static int controllerTrigger_r;
+
+        //the time between scheduler runs (normally should be 0.02, but why not get the actual value) -> updated from RobotPeriodic
+        public static double periodtime;
+        
+        // * * * * SmartDashboard/Out (updating) variables * * * * 
+
+        //colorsensor
+        public static double red;
+        public static double green;
+        public static double blue;
+
+        //imu
+        public static double accX;
+        public static double accY;
+        public static double accZ;
+        public static double initAngle;
+        public static double distanceX;
+        public static double distanceY;
+        public static double currentAngle;
+
+        //ultrasonic
+
+        //userinput?
+        
 
         
     // * * * * Controller input modification * * * * 

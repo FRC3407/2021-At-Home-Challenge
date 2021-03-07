@@ -2,3 +2,8 @@
 - make having multiple controller layouts more streamlined -> make sure everything works
 - add more button commands -> multiple buttons pressed to activate?
 - add new drivemode similar to Rocket League for Josh (lol)
+
+PROBLEM LIST:
+- AutoLine (command)
+- SensorDebug (command)
+- SwapController (command)

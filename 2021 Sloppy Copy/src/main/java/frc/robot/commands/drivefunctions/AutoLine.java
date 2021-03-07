@@ -65,9 +65,9 @@ public class AutoLine extends CommandBase {
    * @param speed - the speed at which the robot will move when line-following
    */
   private void linefollow1(double linecolor[], double floorcolor[], double speed){
-    double redsrc = RobotContainer.colorsrc.red(1);
-    double greensrc = RobotContainer.colorsrc.green(1);
-    double bluesrc = RobotContainer.colorsrc.blue(1);
+    double redsrc = RobotContainer.colorsrc.red();
+    double greensrc = RobotContainer.colorsrc.green();
+    double bluesrc = RobotContainer.colorsrc.blue();
     if(
       (linecolor[0] < redsrc && redsrc < linecolor[1]) && 
       (linecolor[2] < greensrc && greensrc < linecolor[3]) && 

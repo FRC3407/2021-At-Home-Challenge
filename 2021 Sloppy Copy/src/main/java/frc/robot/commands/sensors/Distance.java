@@ -31,6 +31,21 @@ public class Distance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    updateCycle();
+    
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
+  private void updateCycle(){
     double x, y, velx, vely, distx, disty;
     double time = Dynamics.periodtime;
     Ttime += time;
@@ -54,28 +69,5 @@ public class Distance extends CommandBase {
     distanceY += disty;
     velocityX += velx;
     velocityY += vely;
-    action(distanceX, false);
-    action(distanceY, false);
-    action(Ttime, false);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-  /**
-   * too lazy to to make different functions for each different value
-  */
-  private void action(double value, boolean adv){
-    if(adv){
-      SmartDashboard.putNumber("Value", value);
-    }else{
-      System.out.println(String.valueOf(value));
-    }
   }
 }

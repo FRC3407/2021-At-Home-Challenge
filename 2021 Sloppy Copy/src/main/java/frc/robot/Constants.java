@@ -6,6 +6,10 @@ package frc.robot;
 
 import com.analog.adis16470.frc.ADIS16470_IMU.ADIS16470CalibrationTime;
 import com.analog.adis16470.frc.ADIS16470_IMU.IMUAxis;
+import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
+import com.revrobotics.ColorSensorV3.ColorSensorResolution;
+import com.revrobotics.ColorSensorV3.GainFactor;
+
 import edu.wpi.first.wpilibj.I2C;
 
 public final class Constants{
@@ -56,10 +60,12 @@ public final class Constants{
 
         //colorsensor - figure out how multiple colorsensor identification works
         public static final I2C.Port colorsensor_port = I2C.Port.kOnboard;
+        public static final ColorSensorResolution color_res = ColorSensorResolution.kColorSensorRes20bit;
+        public static final ColorSensorMeasurementRate color_rate = ColorSensorMeasurementRate.kColorRate25ms;      // <- set to 50ms if there is a problem, but try not to go lower than that
+        public static final GainFactor color_gain = GainFactor.kGain1x;         // <- find out what this is, make sure 1 is the default
         //public static final I2C.Port colorsensor2_port = I2C.Port.kOnboard;
                 
         //IMU/gyro
-        public static final int gyro_port = 0;
         public static final IMUAxis imu_yaw = IMUAxis.kZ;
         public static final ADIS16470CalibrationTime imu_caltime = ADIS16470CalibrationTime._8s;
 
