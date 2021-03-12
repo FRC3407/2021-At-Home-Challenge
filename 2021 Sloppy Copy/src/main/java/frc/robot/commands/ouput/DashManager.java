@@ -88,9 +88,8 @@ public class DashManager extends CommandBase {
       SmartDashboard.putNumber("IMU Angle", Dynamics.currentAngle);
       SmartDashboard.putNumber("Distance X(axis)", Dynamics.distanceX);
       SmartDashboard.putNumber("Distance Y(axis)", Dynamics.distanceY);
-      SmartDashboard.putNumber("Acceleration X", Dynamics.accX);
-      SmartDashboard.putNumber("Acceleration Y", Dynamics.accY);
-      SmartDashboard.putNumber("Acceleration Z", Dynamics.accZ);
+      SmartDashboard.putNumber("Acceleration X", Dynamics.accelerationX);
+      SmartDashboard.putNumber("Acceleration Y", Dynamics.accelerationY);
     }
     if(color){
       SmartDashboard.putNumber("Colorsensor Red", Dynamics.red);

@@ -34,6 +34,13 @@ public final class Constants{
         //the control mode controller mode that will be started with
         public static final String defaultcontrolmode = "xbox";
 
+    
+    // * * * * PERIODIC SETTINGS * * * *
+        public static boolean colorsrc_periodic = true;
+        public static boolean imu_periodic = true;
+        public static boolean db_periodic = true;
+        public static boolean input_periodic = true;
+
 
     // * * * * HARDWARE PORT CONFIG  * * * *   
     
@@ -127,15 +134,3 @@ public final class Constants{
         public static final int l_controllerTrigger_r = 0;
 
 }
-
-//Project notes>>>
-/*
-- use any created command and a ".schedule()" inside the wanted robot "mode" to run the command
-- Some "CommandScheduler" methods that can be run inside Robot.java include: run(), cancelAll(), etc..
-*/
-
-//Subsystems (also just look at all files inside the subsystem folder):
-    //DriveControl - The drive base
-
-//Commands (also known by all the files inside the commands folder):
-    //DB_TankDrive - Tankdrive command that takes in controller input from two axis

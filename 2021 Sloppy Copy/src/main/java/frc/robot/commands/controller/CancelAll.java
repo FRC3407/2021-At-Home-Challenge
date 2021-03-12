@@ -21,7 +21,6 @@ public class CancelAll extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.linefollow.cancel();
-    RobotContainer.sense_periodic.cancel();
     RobotContainer.teleop_drive.cancel();
     RobotContainer.slolom.cancel();
   }

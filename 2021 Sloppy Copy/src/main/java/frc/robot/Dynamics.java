@@ -1,6 +1,10 @@
 package frc.robot;
 
-public final class Dynamics{
+import com.revrobotics.CIEColor;
+
+import edu.wpi.first.wpilibj.util.Color;
+
+public final class Dynamics {
     /**This file contains variables that can be updated and changed while the robot is running, so they can be used to help things update after button presses, help commands communicate, etc. 
      */
 
@@ -28,27 +32,31 @@ public final class Dynamics{
         //the time between scheduler runs (normally should be 0.02, but why not get the actual value) -> updated from RobotPeriodic
         public static double periodtime;
         
-        // * * * * SmartDashboard/Out (updating) variables * * * * 
+        // * * * * SUBSYSTEM PERIODIC * * * * 
 
-        //colorsensor
+        //colorsrc
         public static double red;
         public static double green;
         public static double blue;
+        public static double infrared;
+        public static double proximity;
+        public static Color closestColor;
+        public static CIEColor colorposition;
 
         //imu
-        public static double accX;
-        public static double accY;
-        public static double accZ;
         public static double initAngle;
+        public static double currentAngle;
+        public static double accelerationX;
+        public static double accelerationY;
+        public static double velocityX;
+        public static double velocityY;
         public static double distanceX;
         public static double distanceY;
-        public static double currentAngle;
-
+        
         //ultrasonic
 
         //userinput?
         
-
         
     // * * * * Controller input modification * * * * 
 
@@ -71,6 +79,12 @@ public final class Dynamics{
         public static double deadzone = 0.4;
         //takes the controller stick output value to the power of this number (along with multiplying it by the above values)
         public static int power = 2;
+
+    // * * * * DYNAMIC SETTINGS * * * *
+        public static boolean colorsrc_periodic = Constants.colorsrc_periodic;
+        public static boolean imu_periodic = Constants.imu_periodic;
+        public static boolean db_periodic = Constants.db_periodic;
+        public static boolean input_periodic = Constants.input_periodic;
 
 
     // * * * * METHODS * * * * 

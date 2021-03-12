@@ -1,32 +1,42 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.subsystems;
+package frc.robot.subsystems.sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.analog.adis16470.frc.ADIS16470_IMU;
+import com.analog.adis16470.frc.ADIS16470_IMU.ADIS16470CalibrationTime;
+import com.analog.adis16470.frc.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants;
+import frc.robot.Dynamics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
 public class IMU_Gyro extends SubsystemBase {
   private ADIS16470_IMU imu = new ADIS16470_IMU();
-  private BuiltInAccelerometer rioAcc = new BuiltInAccelerometer();
-  //private AnalogGyro imu_gyro = new AnalogGyro(Constants.gyro_port);      //<<< not sure if necessary
-  private double angle, rate;
-  
+  private BuiltInAccelerometer rio = new BuiltInAccelerometer();  
 
   /** Creates a new IMU_Gyro. */
   public IMU_Gyro() {
     imu.setYawAxis(Constants.imu_yaw);
     imu.configCalTime(Constants.imu_caltime);
+    Dynamics.initAngle = imu.getAngle();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    rate = currentRate();
-    angle = currentAngle();
+    updatevars();
+  }
+
+  public void updatevars(){
+    Dynamics.currentAngle = imu.getAngle();
+    Dynamics.accelerationX = imuX_si();
+    Dynamics.accelerationY = imuY_si();
+    Dynamics.velocityX += (Dynamics.accelerationX*Dynamics.periodtime);
+    Dynamics.velocityY += (Dynamics.accelerationY*Dynamics.periodtime);
+    Dynamics.distanceX += (Dynamics.velocityX*Dynamics.periodtime);
+    Dynamics.distanceY += (Dynamics.velocityY*Dynamics.periodtime);
   }
 
   /**
@@ -44,14 +54,23 @@ public class IMU_Gyro extends SubsystemBase {
     return imu.getAngle();
   }
 
+  /**
+   * @return returns in G-FORCES, so make sure to convert to something useful
+   */
   public double imuX(){
     return imu.getAccelInstantX();
   }
 
+  /**
+   * @return returns in G-FORCES, so make sure to convert to something useful
+   */
   public double imuY(){
     return imu.getAccelInstantY();
   }
 
+  /**
+   * @return returns in G-FORCES, so make sure to convert to something useful
+   */
   public double imuZ(){
     return imu.getAccelInstantZ();
   }
@@ -72,51 +91,53 @@ public class IMU_Gyro extends SubsystemBase {
    * @return returns in G-FORCES, so make sure to convert to something useful
    */
   public double rioX(){
-    return rioAcc.getX();
+    return rio.getX();
   }
 
   /**
    * @return returns in G-FORCES, so make sure to convert to something useful
    */
   public double rioY(){
-    return rioAcc.getY();
+    return rio.getY();
   }
 
   /**
    * @return returns in G-FORCES, so make sure to convert to something useful
    */
   public double rioZ(){
-    return rioAcc.getZ();
+    return rio.getZ();
   }
 
   public double rioX_si(){
-    return rioAcc.getX() * 9.81;
+    return rio.getX() * 9.81;
   }
 
   public double rioY_si(){
-    return rioAcc.getY() * 9.81;
+    return rio.getY() * 9.81;
   }
 
   public double rioZ_si(){
-    return rioAcc.getZ() * 9.81;
+    return rio.getZ() * 9.81;
   }
 
   public double avgX(){
-    return (rioAcc.getX() + imu.getAccelInstantX()) /2;
+    return (rio.getX() + imu.getAccelInstantX()) /2;
   }
 
   public double avgY(){
-    return (rioAcc.getY() + imu.getAccelInstantY()) /2;
+    return (rio.getY() + imu.getAccelInstantY()) /2;
   }
 
   public double avgZ(){
-    return (rioAcc.getZ() + imu.getAccelInstantZ()) /2;
+    return (rio.getZ() + imu.getAccelInstantZ()) /2;
   }
 
   /**
    * Make sure the robot doesn't move while recalibrating
    */
-  public void recalibrate(){
+  public void recalibrate(IMUAxis axis, ADIS16470CalibrationTime time){
+    imu.setYawAxis(axis);
+    imu.configCalTime(time);
     imu.calibrate();
   }
 

@@ -6,7 +6,7 @@ package frc.robot.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.drivefunctions.AutoMove;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.hardware.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

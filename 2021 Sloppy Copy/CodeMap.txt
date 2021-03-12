@@ -1,0 +1,19 @@
+General:
+ - Main > entrypoint into the code, passes to the Robot class immediately
+ - Robot > extends TimedRobot, which allows access to the commandscheduler and for code to be run a certain times during runtime > aditionally passes to RobotContainer
+ - RobotContainer > contains a place to create instances of subsystems and commands, and access them throught the code, additioanlly can be used to manipulate commandscheduler methods
+    ^^^ These first three files technically contain the only code that will always be run, everything else is just an instance created within these (except the two that follow, which are static and do not have anything to "run")
+ - Constants > constant variables that can be accessed anywhere
+ - Dynamics > dynammic variables that can be updated between scheduler runs, allowing subsystems and commands to communicate easier (and the dashboard)
+
+Subsystems:
+ - DriveTrain > contians the drive motors and methods for controlling them
+ - UserInput > contains controller and button creation, along with methods for getting and modifying analog UserInput
+ - IMU_Gyro > communicates with the SPI IMU, along with the integrated accelerometer > contains methods for accessing gyro and accelerometer data > updates variables in Dynamics periodically
+ - Colorsense > communicates with the colorsensor over the I2C port, allows access to color and proximity data > updates variables in Dynamics periodically
+ - Ultrasonic > not in use > we have not messed with ultrasonics yet this year, this is code from last year
+ - CameraArray > not developed yet > we have not messed with the cameras yet, but could be used to create multiple camera instances and integrate with openCV or other vision processing
+ - MotorAttachments > other servos or motors that are not appart of the drivebase > this is temporary as it would be more ideal to create individual subsystems that correlate with actual parts of the robot when that is needed
+
+Commands:
+ - 

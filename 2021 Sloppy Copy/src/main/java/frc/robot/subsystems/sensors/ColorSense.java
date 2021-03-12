@@ -2,32 +2,47 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.sensors;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CIEColor;
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
 import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorSensorV3.ColorSensorResolution;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3.RawColor;
+import frc.robot.Dynamics;
 
 public class ColorSense extends SubsystemBase {
   
   private ColorSensorV3 colorsrc = new ColorSensorV3(Constants.colorsensor_port);
   private ColorMatch colormatcher = new ColorMatch();
+  private double redarr[] = {0.0, 0.0, 0.0};
+  private double greenarr[] = {0.0, 0.0, 0.0};
+  private double bluearr[] = {0.0, 0.0, 0.0};
+  double count = 0;
 
   /** Creates a new ColorSense. */
   public ColorSense() {
     colorsrc.configureColorSensor(Constants.color_res, Constants.color_rate, Constants.color_gain);
+    coloravg_setup();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updatevars();
+  }
+
+  public void updatevars(){
+    Dynamics.red = colorsrc.getRed();
+    Dynamics.green = colorsrc.getGreen();
+    Dynamics.blue = colorsrc.getBlue();
+    Dynamics.infrared = colorsrc.getIR();
+    Dynamics.proximity = colorsrc.getProximity();
+    Dynamics.closestColor = colorsrc.getColor();
+    Dynamics.colorposition = colorsrc.getCIEColor(); 
   }
 
   public void addMatchColor(double red, double green, double blue){
@@ -36,12 +51,18 @@ public class ColorSense extends SubsystemBase {
 
   /**
    * Make sure to add colors to match to with the addMatchColor method before running this!
+   * @return Returns a proprietary "ColorMatchResult" object, which contains rgb data, along with the confidence of the match. Pass this into "colormatchdata()" to get access to the data. 
+   */
+  public ColorMatchResult runcolormatch(){
+    return colormatcher.matchClosestColor(colorsrc.getColor());
+  }
+
+  /**
    * @return Returns an array of doubles with an index of 4 - the first 3 indexes are the rgb values (of the color that it found a match to, 
    * so compare these to the values you added to addMatchColor to find out what colr it is), the last is the confidence of the match. 
    */
-  public double[] runcolormatch(){
+  public double[] colormatchdata(ColorMatchResult match){
     double ret[] = {0, 0, 0, 0};
-    ColorMatchResult match = colormatcher.matchClosestColor(colorsrc.getColor());
     Color data = match.color;
     ret[0] = data.red;
     ret[1] = data.green;
@@ -90,11 +111,59 @@ public class ColorSense extends SubsystemBase {
   public int infrared(){
     return colorsrc.getIR();
   }
+
+
+// * * * * DEBUG COLOR * * * * (likely of low value in practice)
+
+/**
+ * run this only once
+ */
+private void coloravg_setup(){
+  redarr[0] = redarr[1] = redarr[2] = colorsrc.getRed();
+  greenarr[0] = greenarr[1] = greenarr[2] = colorsrc.getGreen();
+  bluearr[0] = bluearr[1] = bluearr[2] = colorsrc.getBlue();
+}
+
+private double[] periodic_avg(double value, double[] avgarr){
+  double running_avg = avgarr[0];
+  double high = avgarr[1];
+  double low = avgarr[2];
+  double avg = (value + running_avg)/2;
+  double ret[] = {avg, high, low};
+  if(value > high){ret[1] = value;}
+  if(value < low){ret[2] = value;}
+  return ret;
+}
+
+private void coloravg_periodic(){
+  double[] red = periodic_avg(colorsrc.getRed(), redarr);
+  double[] green = periodic_avg(colorsrc.getGreen(), greenarr);
+  double[] blue = periodic_avg(colorsrc.getBlue(), bluearr);
+  redarr[0] = red[0];
+  redarr[1] = red[1];
+  redarr[2] = red[2];
+  greenarr[0] = green[0];
+  greenarr[1] = green[1];
+  greenarr[2] = green[2];
+  bluearr[0] = blue[0];
+  bluearr[1] = blue[1];
+  bluearr[2] = blue[2];
+}
+
+/**
+ * @param counts - the number of periodic runs that it will take to update colorsensor values - ex. if counts = 25, then the colorsenosr will update 2 times per second
+ */
+private void coloravg_lowfreq(int counts){
+  if(count == counts){
+    coloravg_periodic();
+    count = 0;
+  }else{
+    count += 1;
+  }
+}
   
 
-
-
-// * * * * THE OLD WAY * * * * 
+// * * * * OLD METHODS * * * * 
 
   private double magnitude(double red, double green, double blue){
     return Math.sqrt(red*red + blue*blue + green*green);

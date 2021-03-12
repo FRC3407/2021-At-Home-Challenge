@@ -7,21 +7,20 @@ package frc.robot;
 import frc.robot.commands.drivefunctions.AutoLine;
 import frc.robot.commands.drivefunctions.TeleopDrive;
 import frc.robot.commands.groups.Slolom;
-import frc.robot.commands.sensors.SensorDebug;
 import frc.robot.commands.controller.SwapController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.controller.CancelAll;
-import frc.robot.subsystems.CameraArray;
-import frc.robot.subsystems.ColorSense;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IMU_Gyro;
-import frc.robot.subsystems.UltrasonicArray;
+import frc.robot.subsystems.sensors.CameraArray;
+import frc.robot.subsystems.sensors.ColorSense;
+import frc.robot.subsystems.hardware.DriveTrain;
+import frc.robot.subsystems.sensors.IMU_Gyro;
+import frc.robot.subsystems.sensors.UltrasonicArray;
 import frc.robot.subsystems.UserInput;
 import frc.robot.commands.controller.DriveMode;
 import frc.robot.commands.drivefunctions.Decelerate;
 import frc.robot.commands.drivefunctions.GyroStraight;
 import frc.robot.commands.drivefunctions.GyroTurn;
-import frc.robot.commands.sensors.Distance;
+import frc.robot.commands.ouput.DashManager;
 
 public class RobotContainer {
   //automated update functions
@@ -36,13 +35,11 @@ public class RobotContainer {
   public static UserInput input = new UserInput();
   
   //commmand declaration
-  public static Distance distance;
+  public static DashManager dashboard;
   public static Slolom slolom;
   public static AutoLine linefollow;
   public static TeleopDrive teleop_drive;
-  public static SensorDebug sense_periodic;
   public static CancelAll stop;
-  public static SwapController swap;
   public static DriveMode drivemode_left;
   public static DriveMode drivemode_right;
   public static GyroTurn testurn;
@@ -52,17 +49,16 @@ public class RobotContainer {
     public RobotContainer() {
       straight = new GyroStraight(0.2, 0.2);
       testurn = new GyroTurn(0.2, -0.2, 10);
-      distance = new Distance(false, true);
       drivemode_left = new DriveMode(true, false);
       drivemode_right = new DriveMode(false, true);
       slolom = new Slolom(null);
       teleop_drive = new TeleopDrive();
-      sense_periodic = new SensorDebug();
       linefollow = new AutoLine();
       stop = new CancelAll();
-      swap = new SwapController();
+      dashboard = new DashManager(false, true, true, true, true, true, true, true);
       // Configure the button bindings
       configureButtonBindings();
+      register();
     }
 
   /**
@@ -71,12 +67,25 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  public void configureButtonBindings() {
-    CommandScheduler.getInstance().clearButtons();
+  private void configureButtonBindings() {
     input.menubutton.whenPressed(stop);
-    input.homebutton.whenPressed(swap);
     input.leftbutton.whenPressed(drivemode_left);
     input.rightbutton.whenPressed(drivemode_right);
+  }
+
+  private void register(){
+    if(Dynamics.db_periodic){
+      db_main.register();
+    }
+    if(Dynamics.colorsrc_periodic){
+      colorsrc.register();
+    }
+    if(Dynamics.imu_periodic){
+      imu.register();
+    }
+    if(Dynamics.input_periodic){
+      input.register();
+    }
   }
 
   /**
