@@ -37,16 +37,6 @@ public class UserInput extends SubsystemBase {
   }
 
   public void updateButtons(){
-    Xbutton = null;
-    Ybutton = null;
-    Abutton = null;
-    Bbutton = null;
-    menubutton = null;
-    homebutton = null;
-    leftbutton = null;
-    rightbutton = null;
-    lstickbutton = null;
-    rstickbutton = null;
     Xbutton = new JoystickButton(Controller, Dynamics.controllerButton_X);
     Ybutton = new JoystickButton(Controller, Dynamics.controllerButton_Y);
     Abutton = new JoystickButton(Controller, Dynamics.controllerButton_A);

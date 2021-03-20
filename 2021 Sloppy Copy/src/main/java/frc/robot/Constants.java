@@ -34,8 +34,13 @@ public final class Constants{
         //the control mode controller mode that will be started with
         public static final String defaultcontrolmode = "xbox";
 
+    // * * * * Other software values * * * * 
+
+        //deceleration multiplier
+        public static final double deceleration_mult = 0.98;
+
     
-    // * * * * PERIODIC SETTINGS * * * *
+    // * * * * PERIODIC SENSOR TOGGLES * * * *
         public static boolean colorsrc_periodic = true;
         public static boolean imu_periodic = true;
         public static boolean db_periodic = true;

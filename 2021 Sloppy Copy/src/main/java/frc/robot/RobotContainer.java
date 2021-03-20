@@ -34,7 +34,8 @@ public class RobotContainer {
   //public static UltrasonicArray sonic = new UltrasonicArray();
   public static UserInput input = new UserInput();
   
-  //commmand declaration
+  //commmand instance creation
+  public static Decelerate decelerate;
   public static DashManager dashboard;
   public static Slolom slolom;
   public static AutoLine linefollow;
@@ -47,6 +48,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+      decelerate = new Decelerate(Dynamics.deceleration_mult);
       straight = new GyroStraight(0.2, 0.2);
       testurn = new GyroTurn(0.2, -0.2, 10);
       drivemode_left = new DriveMode(true, false);
@@ -55,7 +57,7 @@ public class RobotContainer {
       teleop_drive = new TeleopDrive();
       linefollow = new AutoLine();
       stop = new CancelAll();
-      dashboard = new DashManager(false, true, true, true, true, true, true, true);
+      dashboard = new DashManager();
       // Configure the button bindings
       configureButtonBindings();
       register();

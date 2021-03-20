@@ -59,40 +59,12 @@ public class TeleopDrive extends CommandBase {
   public void end(boolean interrupted) {
     // System.out.println(String.valueOf(decleft));
     // System.out.println(String.valueOf(decright));
-    RobotContainer.db_main.tank_drive(0,0);
+    RobotContainer.decelerate.schedule();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-  }
-
-  private double[] arcadeConversion(double xSpeed, double zRotation) {
-    int right_invt = 1;
-    double leftOutput;
-    double rightOutput;
-    double ret[] = {0, 0};
-    double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
-    if(xSpeed >= 0.0){
-      if(zRotation >= 0.0){
-        leftOutput = maxInput;
-        rightOutput = xSpeed - zRotation;
-      }else{
-        leftOutput = xSpeed + zRotation;
-        rightOutput = maxInput;
-      }
-    }else{
-      if(zRotation >= 0.0){
-        leftOutput = xSpeed + zRotation;
-        rightOutput = maxInput;
-      }else{
-        leftOutput = maxInput;
-        rightOutput = xSpeed - zRotation;
-      }}
-    if(Dynamics.db_right_invt){right_invt = -1;}
-    ret[0] = (MathUtil.clamp(leftOutput, -1.0, 1.0));
-    ret[1] = (MathUtil.clamp(rightOutput, -1.0, 1.0) * right_invt);
-    return ret;
   }
 }

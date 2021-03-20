@@ -21,12 +21,18 @@ public class IMU_Gyro extends SubsystemBase {
     imu.setYawAxis(Constants.imu_yaw);
     imu.configCalTime(Constants.imu_caltime);
     Dynamics.initAngle = imu.getAngle();
+    Dynamics.accelerationX = 0;
+    Dynamics.accelerationY = 0;
+    Dynamics.velocityX = 0;
+    Dynamics.velocityY = 0;
+    Dynamics.distanceX = 0;
+    Dynamics.distanceY = 0;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    updatevars();
+    updatevars_AVG();
   }
 
   public void updatevars(){
@@ -37,6 +43,18 @@ public class IMU_Gyro extends SubsystemBase {
     Dynamics.velocityY += (Dynamics.accelerationY*Dynamics.periodtime);
     Dynamics.distanceX += (Dynamics.velocityX*Dynamics.periodtime);
     Dynamics.distanceY += (Dynamics.velocityY*Dynamics.periodtime);
+  }
+
+  public void updatevars_AVG(){
+    Dynamics.currentAngle = imu.getAngle();
+    double accX = imuX_si();
+    double accY = imuY_si();
+    Dynamics.distanceX += (Dynamics.velocityX + (((Dynamics.accelerationX + accX)/2) * Dynamics.periodtime))*Dynamics.periodtime;
+    Dynamics.distanceY += (Dynamics.velocityY + (((Dynamics.accelerationY + accY)/2) * Dynamics.periodtime))*Dynamics.periodtime;
+    Dynamics.accelerationX = accX;
+    Dynamics.accelerationY = accY;
+    Dynamics.velocityX += (Dynamics.accelerationX*Dynamics.periodtime);
+    Dynamics.velocityY += (Dynamics.accelerationY*Dynamics.periodtime);
   }
 
   /**

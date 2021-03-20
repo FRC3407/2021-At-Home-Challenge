@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.Constants;
 import frc.robot.Dynamics;
-import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
   //DriveBase motors and groups setup
@@ -66,19 +65,16 @@ public class DriveTrain extends SubsystemBase {
     db_right.set(speed);
   }
 
-  //timing? - yep, under construction due to scheduler timing integration needs
-  public void decelerate(double init_speed){
-    double speed = init_speed;
-    while(speed>0.1){
-      speed *= 0.9;
-      drive_main.tankDrive(speed, speed);
-      System.out.println("happened");
-    }
-    drive_main.tankDrive(0, 0);
+  public double leftspeed(){
+    return db_left.get();
+  }
+
+  public double rightspeed(){
+    return db_right.get();
   }
 
 
-
+  
 //default periodic functions
   @Override
   public void simulationPeriodic() {

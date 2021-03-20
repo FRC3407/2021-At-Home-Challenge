@@ -21,16 +21,9 @@ public class DashManager extends CommandBase {
   /**
    * Use the booleans to determine what data should be output to SmartDashboard 
   */
-  public DashManager(boolean sensordata_only, boolean imu, boolean colorsensor, boolean inputdata, boolean ultrasonic, boolean config, boolean cameras, boolean ports) {
+  public DashManager() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.imu = imu;
-    this.color = colorsensor;
-    this.input = inputdata;
-    this.sonic = ultrasonic;
-    this.config = config;
-    this.camerafeed = cameras;
-    this.ports = ports;
-    this.sensor_only = sensordata_only;
+    
   }
 
   // Called when the command is initially scheduled.
@@ -38,44 +31,25 @@ public class DashManager extends CommandBase {
   public void initialize() {
     if(!sensor_only){
       if(imu){
-        SmartDashboard.putString("IMU Yaw Axis", String.valueOf(Constants.imu_yaw));
-        SmartDashboard.putString("IMU Calibration Time", String.valueOf(Constants.imu_caltime));
+        imustatic();
       }
       if(color){
-        SmartDashboard.putString("Colorsensor 'Port'", String.valueOf(Constants.colorsensor_port));
+        colorstatic();
       }
       if(input){
-        
+        inputstatic();
       }
       if(sonic){
-        SmartDashboard.putNumber("Ultrasonic Port", Constants.ultrasonic1_port);
+        sonicstatic();
       }
       if(config){
-        SmartDashboard.putString("Controller Layout", Dynamics.controllerlayout);
-        SmartDashboard.putString("Drive Mode", Dynamics.drivemode);
-        SmartDashboard.putBoolean("Default Input Squaring?", Dynamics.default_squareinp);
-        SmartDashboard.putBoolean("Left Motors Inverted?", Dynamics.db_left_invt);
-        SmartDashboard.putBoolean("Right Motors Inverted?", Dynamics.db_right_invt);
-        SmartDashboard.putNumber("Left Stick Y Axis Multiplier", Dynamics.c1_left_Y_mult);
-        SmartDashboard.putNumber("Left Stick X Axis Multiplier", Dynamics.c1_left_X_mult);
-        SmartDashboard.putNumber("Right Stick Y Axis Multiplier", Dynamics.c1_right_Y_mult);
-        SmartDashboard.putNumber("Right Stick X Axis Multiplier", Dynamics.c1_right_X_mult);
-        SmartDashboard.putNumber("Controller Stick Deadzone", Dynamics.deadzone);
-        SmartDashboard.putNumber("Stick Input [Power Of]", Dynamics.power);      
+        configstatic();
       }
       if(camerafeed){
-        SmartDashboard.putNumber("Camera 1 port", Constants.cam1_port);
-        SmartDashboard.putNumber("Camera 2 port", Constants.cam2_port);
-        SmartDashboard.putNumber("Camera 3 port", Constants.cam3_port);
+        camerastatic();
       }
       if(ports){
-        SmartDashboard.putNumber("DriveBase Front Left", Constants.front_left_chan);
-        SmartDashboard.putNumber("DriveBase Front Right", Constants.front_right_chan);
-        SmartDashboard.putNumber("DriveBase Back Left", Constants.back_left_chan);
-        SmartDashboard.putNumber("DriveBase Back Right", Constants.back_right_chan);
-        SmartDashboard.putNumber("Controller Port", Constants.controller_port);
-        //SmartDashboard.putNumber("Falcon _ CanID", Constants.falcon1_canid);
-        //SmartDashboard.putNumber("Falcon _ CanID", Constants.falcon2_canid);
+        portsstatic();
       }
     }
   }
@@ -84,29 +58,22 @@ public class DashManager extends CommandBase {
   @Override
   public void execute() {
     if(imu){
-      SmartDashboard.putNumber("Initial Angle", Dynamics.initAngle);
-      SmartDashboard.putNumber("IMU Angle", Dynamics.currentAngle);
-      SmartDashboard.putNumber("Distance X(axis)", Dynamics.distanceX);
-      SmartDashboard.putNumber("Distance Y(axis)", Dynamics.distanceY);
-      SmartDashboard.putNumber("Acceleration X", Dynamics.accelerationX);
-      SmartDashboard.putNumber("Acceleration Y", Dynamics.accelerationY);
+      imulive();
     }
     if(color){
-      SmartDashboard.putNumber("Colorsensor Red", Dynamics.red);
-      SmartDashboard.putNumber("Colorsensor Green", Dynamics.green);
-      SmartDashboard.putNumber("Colorsensor Blue", Dynamics.blue);
+      colorlive();
     }
     if(input){
-      
+      inputlive();
     }
     if(sonic){
-      
+      soniclive();
     }
     if(config){
-            
+      configlive();
     }
     if(camerafeed){
-      
+      cameralive();
     }
   }
 
@@ -118,5 +85,99 @@ public class DashManager extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  private void num(String desc, double num){
+    SmartDashboard.putNumber(desc, num);
+  }
+
+  private void bool(String desc, boolean bool){
+    SmartDashboard.putBoolean(desc, bool);
+  }
+
+  private void str(String desc, String str){
+    SmartDashboard.putString(desc, str);
+  }
+
+  private void imulive(){
+    num("IMU Angle", Dynamics.currentAngle);
+    num("Acceleration X", Dynamics.accelerationX);
+    num("Acceleration Y", Dynamics.accelerationY);
+    num("Velocity X", Dynamics.velocityX);
+    num("Velocity Y", Dynamics.velocityY);
+    num("Distance X(axis)", Dynamics.distanceX);
+    num("Distance Y(axis)", Dynamics.distanceY);
+    
+  }
+
+  private void colorlive(){
+    num("Colorsensor Red", Dynamics.red);
+    num("Colorsensor Green", Dynamics.green);
+    num("Colorsensor Blue", Dynamics.blue);
+  }
+
+  private void inputlive(){
+
+  }
+
+  private void soniclive(){
+
+  }
+
+  private void configlive(){
+
+  }
+
+  private void cameralive(){
+
+  }
+
+// * * * * * * * * * * * * * 
+
+  private void imustatic(){
+    num("Initial Angle", Dynamics.initAngle);
+    str("IMU Yaw Axis", String.valueOf(Constants.imu_yaw));
+    str("IMU Calibration Time", String.valueOf(Constants.imu_caltime));
+  }
+
+  private void colorstatic(){
+    str("Colorsensor 'Port'", String.valueOf(Constants.colorsensor_port));
+  }
+
+  private void inputstatic(){
+    num("Controller Port", Constants.controller_port);
+  }
+
+  private void sonicstatic(){
+    num("Ultrasonic Port", Constants.ultrasonic1_port);
+  }
+
+  private void configstatic(){
+    str("Controller Layout", Dynamics.controllerlayout);
+    str("Drive Mode", Dynamics.drivemode);
+    bool("Default Input Squaring?", Dynamics.default_squareinp);
+    bool("Left Motors Inverted?", Dynamics.db_left_invt);
+    bool("Right Motors Inverted?", Dynamics.db_right_invt);
+    num("Left Stick Y Axis Multiplier", Dynamics.c1_left_Y_mult);
+    num("Left Stick X Axis Multiplier", Dynamics.c1_left_X_mult);
+    num("Right Stick Y Axis Multiplier", Dynamics.c1_right_Y_mult);
+    num("Right Stick X Axis Multiplier", Dynamics.c1_right_X_mult);
+    num("Controller Stick Deadzone", Dynamics.deadzone);
+    num("Stick Input [Power Of]", Dynamics.power); 
+  }
+
+  private void camerastatic(){
+    num("Camera 1 port", Constants.cam1_port);
+    num("Camera 2 port", Constants.cam2_port);
+    num("Camera 3 port", Constants.cam3_port);
+  }
+
+  private void portsstatic(){
+    num("DriveBase Front Left", Constants.front_left_chan);
+    num("DriveBase Front Right", Constants.front_right_chan);
+    num("DriveBase Back Left", Constants.back_left_chan);
+    num("DriveBase Back Right", Constants.back_right_chan);
+    //SmartDashboard.putNumber("Falcon _ CanID", Constants.falcon1_canid);
+    //SmartDashboard.putNumber("Falcon _ CanID", Constants.falcon2_canid);
   }
 }

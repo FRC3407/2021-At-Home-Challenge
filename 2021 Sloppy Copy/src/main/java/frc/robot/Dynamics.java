@@ -86,6 +86,8 @@ public final class Dynamics {
         public static boolean db_periodic = Constants.db_periodic;
         public static boolean input_periodic = Constants.input_periodic;
 
+        public static double deceleration_mult = Constants.deceleration_mult;
+
 
     // * * * * METHODS * * * * 
 
