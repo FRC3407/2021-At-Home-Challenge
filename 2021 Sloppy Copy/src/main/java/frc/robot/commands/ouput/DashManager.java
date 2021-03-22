@@ -9,12 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Dynamics;
 import frc.robot.Constants;
 
-/**
- * 
- * COPY HERE TO MAKE LIFE EASY(er): SmartDashboard.putNumber, SmartDashboard.putString, SmartDashboard.putBoolean
- * 
- */
-
 public class DashManager extends CommandBase {
   private boolean imu = false, color = false, input = false, sonic = false, config = false, ports = false, camerafeed = false, sensor_only = false; 
   
