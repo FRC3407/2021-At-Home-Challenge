@@ -4,9 +4,9 @@
 
 #include "RobotContainer.h"
 
-RobotContainer::RobotContainer(){
+RobotContainer::RobotContainer() : teleopdrive(&db_main){
   // Initialize all of your commands and subsystems here
-
+  
   // Configure the button bindings
   ConfigureButtonBindings();
 }
@@ -17,5 +17,9 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return;
+  return nullptr;
+}
+
+frc2::Command* RobotContainer::GetTeleopCommand(){
+  return &teleopdrive;
 }

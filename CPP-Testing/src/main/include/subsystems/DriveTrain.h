@@ -5,10 +5,10 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/SpeedController.h>
 #include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/PWMVictorSPX.h>
+#include "Constants.h"
 
 class DriveTrain : public frc2::SubsystemBase {
  public:
@@ -16,11 +16,19 @@ class DriveTrain : public frc2::SubsystemBase {
 
   void tankdrive(double leftspeed, double rightspeed);
 
-  void arcadedrive();
+  void arcadedrive(double speed, double rotation);
 
-  void racedrive();
+  void racedrive(double forward, double backward, double rotation);
 
-  void triggerdrive();
+  void triggerdrive(double left_trigger, double right_trigger);
+
+  void setleft(double speed);
+
+  void setright(double speed);
+
+  double leftspeed();
+
+  double rightspeed();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -31,13 +39,13 @@ class DriveTrain : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
-  frc::PWMVictorSPX frontleft();
-  frc::PWMVictorSPX frontright();
-  frc::PWMVictorSPX backleft();
-  frc::PWMVictorSPX backright();
+  frc::PWMVictorSPX frontleft;
+  frc::PWMVictorSPX frontright;
+  frc::PWMVictorSPX backleft;
+  frc::PWMVictorSPX backright;
 
-  frc::SpeedControllerGroup left();
-  frc::SpeedControllerGroup right();
+  frc::SpeedControllerGroup left{frontleft, backleft};
+  frc::SpeedControllerGroup right{frontright, backright};
 
-  frc::DifferentialDrive db_main();
+  frc::DifferentialDrive drive_main{left, right};
 };

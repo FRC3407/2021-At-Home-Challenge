@@ -22,6 +22,7 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::TeleopInit() {
+  teleopcommand = m_container.GetTeleopCommand();
   // This makes sure that the autonomous stops running when
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
@@ -29,6 +30,10 @@ void Robot::TeleopInit() {
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
+  }
+
+  if (teleopcommand != nullptr){
+    teleopcommand->Schedule();
   }
 }
 
@@ -43,6 +48,11 @@ void Robot::TeleopPeriodic() {}
  */
 void Robot::AutonomousInit() {
   m_autonomousCommand = m_container.GetAutonomousCommand();
+
+  if(teleopcommand != nullptr){
+    teleopcommand->Cancel();
+    teleopcommand = nullptr;
+  }
 
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();
