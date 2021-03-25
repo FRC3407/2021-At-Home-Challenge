@@ -5,6 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
+#include "subsystems/UserInput.h"
 #include "subsystems/DriveTrain.h"
 #include "commands/TeleopDrive.h"
 
@@ -26,6 +27,7 @@ class RobotContainer {
  private:
   // The robot's subsystems and commands are defined here...
   
+  UserInput input;
   DriveTrain db_main;
   TeleopDrive teleopdrive;
   

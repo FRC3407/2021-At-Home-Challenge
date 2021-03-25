@@ -4,7 +4,7 @@
 
 #include "commands/TeleopDrive.h"
 
-TeleopDrive::TeleopDrive(DriveTrain* subsystem) : db_main{subsystem}{
+TeleopDrive::TeleopDrive(DriveTrain* subsystem, UserInput* controller) : db_main{subsystem}, input{controller}{
   // Use addRequirements() here to declare subsystem dependencies.
   //addRequirements(DriveTrain);
   //addRequirements();
@@ -15,7 +15,9 @@ void TeleopDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopDrive::Execute() {
-  db_main->tankdrive(0, 0);
+  double lsticky = input->largeconvert_deadstart(controller::x_controllerStick_ly, controller::leftmult_Y);
+  double rsticky = input->largeconvert_deadstart(controller::x_controllerStick_ry, controller::rightmult_Y);
+  db_main->tankdrive(lsticky, rsticky);
 }
 
 // Called once the command ends or is interrupted.

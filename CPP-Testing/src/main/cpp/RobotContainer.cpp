@@ -4,7 +4,7 @@
 
 #include "RobotContainer.h"
 
-RobotContainer::RobotContainer() : teleopdrive(&db_main){
+RobotContainer::RobotContainer() : teleopdrive(&db_main, &input){
   // Initialize all of your commands and subsystems here
   
   // Configure the button bindings

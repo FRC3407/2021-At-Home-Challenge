@@ -4,7 +4,11 @@
 
 #include "subsystems/DriveTrain.h"
 
-DriveTrain::DriveTrain() : frontleft{drivetrain::frontleft_port}, frontright{drivetrain::frontright_port}, backleft{drivetrain::backleft_port}, backright{drivetrain::backright_port}{}
+DriveTrain::DriveTrain() : frontleft{drivetrain::frontleft_port}, frontright{drivetrain::frontright_port}, backleft{drivetrain::backleft_port}, backright{drivetrain::backright_port}
+{
+    DriveTrain::left.SetInverted(drivetrain::leftinvt);
+    DriveTrain::right.SetInverted(drivetrain::rightinvt);
+}
 
     void DriveTrain::tankdrive(double leftspeed, double rightspeed){
         drive_main.TankDrive(leftspeed, rightspeed, drivetrain::default_sqr);

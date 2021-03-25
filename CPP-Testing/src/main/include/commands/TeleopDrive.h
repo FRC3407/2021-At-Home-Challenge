@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/DriveTrain.h"
+#include "subsystems/UserInput.h"
 /**
  * An example command.
  *
@@ -18,7 +19,7 @@
 class TeleopDrive
     : public frc2::CommandHelper<frc2::CommandBase, TeleopDrive> {
  public:
-  explicit TeleopDrive(DriveTrain* subsystem);
+  explicit TeleopDrive(DriveTrain* drivebase, UserInput* controller);
 
   void Initialize() override;
 
@@ -28,5 +29,6 @@ class TeleopDrive
 
   bool IsFinished() override;
  private:
+  UserInput* input;
   DriveTrain* db_main;
 };

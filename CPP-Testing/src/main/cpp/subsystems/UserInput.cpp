@@ -30,6 +30,20 @@ double UserInput::axis_exponential(int axis, int power){
 double UserInput::largeconvert_deadcut(int axis, double mult){
     double raw = Controller.GetRawAxis(axis);
     double threshold = abs(controller::deadzone - (int)controller::deadzone);
+    double ex = 1;
+    for(int i=0;i<controller::power;i++){
+        ex*=raw;
+    }
+    double ret = mult*copysign(abs(ex), raw);
+    if(abs(raw)<threshold){
+        ret - 0.0;
+    }
+    return ret;
+}
+
+double UserInput::largeconvert_deadstart(int axis, double mult){
+    double raw = Controller.GetRawAxis(axis);
+    double threshold = abs(controller::deadzone - (int)controller::deadzone);
     double exa = 1;
     double ex = 1;
     for(int i=0; i<controller::power; i++){
@@ -41,11 +55,6 @@ double UserInput::largeconvert_deadcut(int axis, double mult){
         ret = 0.0;
     }
     return ret;
-}
-
-double UserInput::largeconvert_deadstart(int axis, double mult){
-    double raw = Controller.GetRawAxis(axis);
-
 }
 
 // This method will be called once per scheduler run

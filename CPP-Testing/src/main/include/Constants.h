@@ -29,6 +29,9 @@ namespace drivetrain{
     constexpr bool default_sqr = false;
 
     constexpr double deceleration_const = 0.98;
+
+    constexpr bool leftinvt = false;
+    constexpr bool rightinvt = false;
 }
 
 namespace controller{
@@ -58,7 +61,7 @@ namespace controller{
     constexpr int x_controllerButton_rs = 10;
     constexpr int x_controllerStick_ly = 1;
     constexpr int x_controllerStick_lx = 0;
-    constexpr int tx_controllerStick_ry = 5;
+    constexpr int x_controllerStick_ry = 5;
     constexpr int x_controllerStick_rx = 4;
     constexpr int x_controllerTrigger_l = 2;
     constexpr int x_controllerTrigger_r = 3;
