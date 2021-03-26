@@ -4,22 +4,26 @@
 
 #include "subsystems/UserInput.h"
 
-UserInput::UserInput() = default;
+UserInput::UserInput(int port) : GenericHID(port) {};
 
-double UserInput::axis_raw(int axis){
-    return Controller.GetRawAxis(axis);
+double UserInput::GetY(JoystickHand hand) const {
+    //idk what to put here yet
 }
 
-double UserInput::axis_offset(int axis, double offset){
-    return Controller.GetRawAxis(axis) + offset;
+double UserInput::GetX(JoystickHand hand) const {
+    //idk what to put here yet
 }
 
-double UserInput::axis_multiply(int axis, double mult){
-    return Controller.GetRawAxis(axis)*mult;
+double UserInput::GetAxis_offset(int axis, double offset){
+    return GetRawAxis(axis) + offset;
 }
 
-double UserInput::axis_exponential(int axis, int power){
-    double raw = Controller.GetRawAxis(axis);
+double UserInput::GetAxis_multiply(int axis, double mult){
+    return GetRawAxis(axis)*mult;
+}
+
+double UserInput::GetAxis_exponential(int axis, int power){
+    double raw = GetRawAxis(axis);
     double ret = 1;
     for(int i=0; i<power;i++){
         ret *= raw;
@@ -28,7 +32,7 @@ double UserInput::axis_exponential(int axis, int power){
 }
 
 double UserInput::largeconvert_deadcut(int axis, double mult){
-    double raw = Controller.GetRawAxis(axis);
+    double raw = GetRawAxis(axis);
     double threshold = abs(controller::deadzone - (int)controller::deadzone);
     double ex = 1;
     for(int i=0;i<controller::power;i++){
@@ -42,7 +46,7 @@ double UserInput::largeconvert_deadcut(int axis, double mult){
 }
 
 double UserInput::largeconvert_deadstart(int axis, double mult){
-    double raw = Controller.GetRawAxis(axis);
+    double raw = GetRawAxis(axis);
     double threshold = abs(controller::deadzone - (int)controller::deadzone);
     double exa = 1;
     double ex = 1;
@@ -56,6 +60,3 @@ double UserInput::largeconvert_deadstart(int axis, double mult){
     }
     return ret;
 }
-
-// This method will be called once per scheduler run
-void UserInput::Periodic() {}

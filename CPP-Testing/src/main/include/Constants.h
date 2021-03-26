@@ -40,6 +40,8 @@ namespace controller{
     constexpr double leftmult_X = -0.5;
     constexpr double rightmult_X = -0.5;
 
+    constexpr double stickmult = -0.5;
+
     constexpr double deadzone = 0.4;
 
     constexpr int power = 2;

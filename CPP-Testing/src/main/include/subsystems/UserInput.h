@@ -4,36 +4,31 @@
 
 #pragma once
 
-#include <frc2/command/SubsystemBase.h>
+#include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <cmath>
 
 #include "Constants.h"
 
-class UserInput : public frc2::SubsystemBase {
+class UserInput : public frc::GenericHID {
  public:
-  UserInput();
+  explicit UserInput(int port);
 
-  double axis_raw(int axis);
+  double GetX(JoystickHand hand) const override;
 
-  double axis_offset(int axis, double offset);
+  double GetY(JoystickHand hand) const override;
 
-  double axis_multiply(int axis, double mult);
+  double GetAxis_offset(int axis, double offset);
 
-  double axis_exponential(int axis, int power);
+  double GetAxis_multiply(int axis, double mult);
+
+  double GetAxis_exponential(int axis, int power);
 
   double largeconvert_deadcut(int axis, double mult);
 
   double largeconvert_deadstart(int axis, double mult);
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
-
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-
-  frc::XboxController Controller{controller::controller_port};
 };

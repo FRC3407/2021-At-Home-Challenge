@@ -15,8 +15,8 @@ void TeleopDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopDrive::Execute() {
-  double lsticky = input->largeconvert_deadstart(controller::x_controllerStick_ly, controller::leftmult_Y);
-  double rsticky = input->largeconvert_deadstart(controller::x_controllerStick_ry, controller::rightmult_Y);
+  double lsticky = input->largeconvert_deadstart(controller::x_controllerStick_ly, controller::stickmult);
+  double rsticky = input->largeconvert_deadstart(controller::x_controllerStick_ry, controller::stickmult);
   db_main->tankdrive(lsticky, rsticky);
 }
 
