@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/TeleopDrive.h"
+#include "TeleopDrive.h"
 
 TeleopDrive::TeleopDrive(DriveTrain* subsystem, UserInput* controller) : db_main{subsystem}, input{controller}{
   // Use addRequirements() here to declare subsystem dependencies.

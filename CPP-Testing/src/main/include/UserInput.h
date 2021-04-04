@@ -5,7 +5,6 @@
 #pragma once
 
 #include <frc/GenericHID.h>
-#include <frc/XboxController.h>
 #include <cmath>
 
 #include "Constants.h"

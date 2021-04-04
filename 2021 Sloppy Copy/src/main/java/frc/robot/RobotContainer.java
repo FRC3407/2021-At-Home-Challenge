@@ -4,17 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.commands.drivefunctions.AutoLine;
 import frc.robot.commands.drivefunctions.TeleopDrive;
 import frc.robot.commands.groups.Slolom;
-import frc.robot.commands.controller.SwapController;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.controller.CancelAll;
-import frc.robot.subsystems.sensors.CameraArray;
 import frc.robot.subsystems.sensors.ColorSense;
 import frc.robot.subsystems.hardware.DriveTrain;
 import frc.robot.subsystems.sensors.IMU_Gyro;
-import frc.robot.subsystems.sensors.UltrasonicArray;
 import frc.robot.subsystems.UserInput;
 import frc.robot.commands.controller.DriveMode;
 import frc.robot.commands.drivefunctions.Decelerate;
@@ -38,7 +33,6 @@ public class RobotContainer {
   public static Decelerate decelerate;
   public static DashManager dashboard;
   public static Slolom slolom;
-  public static AutoLine linefollow;
   public static TeleopDrive teleop_drive;
   public static CancelAll stop;
   public static DriveMode drivemode_left;
@@ -46,22 +40,25 @@ public class RobotContainer {
   public static GyroTurn testurn;
   public static GyroStraight straight;
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
-      decelerate = new Decelerate(Dynamics.deceleration_mult);
-      straight = new GyroStraight(0.2, 0.2);
-      testurn = new GyroTurn(0.2, -0.2, 10);
-      drivemode_left = new DriveMode(true, false);
-      drivemode_right = new DriveMode(false, true);
-      slolom = new Slolom(null);
-      teleop_drive = new TeleopDrive();
-      linefollow = new AutoLine();
-      stop = new CancelAll();
-      dashboard = new DashManager();
-      // Configure the button bindings
-      configureButtonBindings();
-      register();
-    }
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    registerSubsystems();
+    instantiateCommands();
+    // Configure the button bindings
+    configureButtonBindings();
+  }
+
+  private void instantiateCommands(){
+    decelerate = new Decelerate(Dynamics.deceleration_mult);
+    straight = new GyroStraight(0.2, 0.2);
+    testurn = new GyroTurn(0.2, -0.2, 10);
+    drivemode_left = new DriveMode(true, false);
+    drivemode_right = new DriveMode(false, true);
+    slolom = new Slolom(null);
+    teleop_drive = new TeleopDrive();
+    stop = new CancelAll();
+    dashboard = new DashManager();
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -75,7 +72,7 @@ public class RobotContainer {
     input.rightbutton.whenPressed(drivemode_right);
   }
 
-  private void register(){
+  private void registerSubsystems(){
     if(Dynamics.db_periodic){
       db_main.register();
     }

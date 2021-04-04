@@ -5,9 +5,9 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-#include "subsystems/UserInput.h"
-#include "subsystems/DriveTrain.h"
-#include "commands/TeleopDrive.h"
+#include "UserInput.h"
+#include "DriveTrain.h"
+#include "TeleopDrive.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since

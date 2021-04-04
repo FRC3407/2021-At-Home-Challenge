@@ -7,8 +7,8 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/DriveTrain.h"
-#include "subsystems/UserInput.h"
+#include "DriveTrain.h"
+#include "UserInput.h"
 /**
  * An example command.
  *
