@@ -28,7 +28,7 @@ public final class Constants{
         public static final int power = 2;
 
         //the control mode controller mode that will be started with
-        public static final String defaultcontrolmode = "xbox";
+        public static final String defaultcontrolmode = "logitech";
 
     // * * * * Other software values * * * * 
 
@@ -38,7 +38,7 @@ public final class Constants{
     
     // * * * * PERIODIC SENSOR TOGGLES * * * *
         public static boolean colorsrc_periodic = false;
-        public static boolean imu_periodic = true;
+        public static boolean imu_periodic = false;
         public static boolean db_periodic = false;
         public static boolean input_periodic = false;
 
@@ -107,10 +107,10 @@ public final class Constants{
         public static final int l_controllerButton_B = 2;
         public static final int l_controllerButton_X = 0;
         public static final int l_controllerButton_Y = 3;
-        public static final int l_controllerButton_menu = 9;
-        public static final int l_controllerButton_home = 10;
-        // public static final int l_controllerButton_lb = ;
-        // public static final int l_controllerButton_rb = ;
+        public static final int l_controllerButton_menu = 8;
+        public static final int l_controllerButton_home = 9;
+        public static final int l_controllerButton_lb = 4;
+        public static final int l_controllerButton_rb = 5;
         // public static final int l_controllerButton_ls = ;
         // public static final int l_controllerButton_rs = ;
         public static final int l_controllerStick_ly = 1;

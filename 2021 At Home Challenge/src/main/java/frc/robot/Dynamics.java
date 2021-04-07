@@ -90,14 +90,16 @@ public final class Dynamics{
                 controllerButton_B = Constants.l_controllerButton_B;
                 controllerButton_X = Constants.l_controllerButton_X;
                 controllerButton_Y = Constants.l_controllerButton_Y;
+                controllerButton_rb = Constants.l_controllerButton_rb;
+                controllerButton_lb = Constants.l_controllerButton_lb;
                 controllerButton_menu = Constants.l_controllerButton_menu;
                 controllerButton_home = Constants.l_controllerButton_home;
                 controllerStick_ly = Constants.l_controllerStick_ly;
                 controllerStick_lx = Constants.l_controllerStick_lx;
                 controllerStick_ry = Constants.l_controllerStick_ry;
                 controllerStick_rx = Constants.l_controllerStick_rx;
-                controllerTrigger_l = Constants.l_controllerTrigger_l;
-                controllerTrigger_r = Constants.l_controllerTrigger_r;
+                //controllerTrigger_l = Constants.l_controllerTrigger_l;
+                //controllerTrigger_r = Constants.l_controllerTrigger_r;
             }
         }
 }
