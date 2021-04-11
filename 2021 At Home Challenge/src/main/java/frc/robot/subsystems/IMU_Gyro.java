@@ -30,6 +30,7 @@ public class IMU_Gyro extends SubsystemBase {
     updatevars_AVG();
   }
 
+  // //Since proven inaccurate
   // public void updatevars(){
   //   accelerationX = imuAccX_si();
   //   accelerationY = imuAccY_si();

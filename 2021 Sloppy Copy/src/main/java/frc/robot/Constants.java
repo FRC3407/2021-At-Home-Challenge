@@ -138,4 +138,30 @@ public final class Constants{
         public static final int l_controllerTrigger_l = 0;
         public static final int l_controllerTrigger_r = 0;
 
+
+        public enum XboxLayout{
+            AButton(1),
+            BButton(2),
+            XButton(3),
+            YButton(4),
+            MenuButton(8),
+            HomeButton(7),
+            LeftButton(5),
+            RightButton(6),
+            LeftStickButton(9),
+            RightStickButton(10),
+            LeftYAxis(1),
+            LeftXAxis(0),
+            RightYAxis(5),
+            RightX(4),
+            LeftTriggerAxis(2),
+            RightTriggerAxis(3);
+
+            public final int value;
+
+            XboxLayout(int value){
+                this.value = value;
+            }
+
+        }
 }
