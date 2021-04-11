@@ -90,6 +90,8 @@ public final class Dynamics{
                 controllerButton_B = Constants.l_controllerButton_B;
                 controllerButton_X = Constants.l_controllerButton_X;
                 controllerButton_Y = Constants.l_controllerButton_Y;
+                controllerButton_rb = Constants.l_controllerButton_rb;
+                controllerButton_lb = Constants.l_controllerButton_lb;
                 controllerButton_menu = Constants.l_controllerButton_menu;
                 controllerButton_home = Constants.l_controllerButton_home;
                 controllerButton_lb = Constants.l_controllerButton_lb;

@@ -111,8 +111,13 @@ public final class Constants{
         public static final int l_controllerButton_home = 9;
         public static final int l_controllerButton_lb = 4;
         public static final int l_controllerButton_rb = 5;
+<<<<<<< HEAD
         public static final int l_controllerButton_ls = 6;
         public static final int l_controllerButton_rs = 7;
+=======
+        // public static final int l_controllerButton_ls = ;
+        // public static final int l_controllerButton_rs = ;
+>>>>>>> 6287c0260dd11740002a6eef1ccecf65d47e616e
         public static final int l_controllerStick_ly = 1;
         public static final int l_controllerStick_lx = 0;
         public static final int l_controllerStick_ry = 3;
