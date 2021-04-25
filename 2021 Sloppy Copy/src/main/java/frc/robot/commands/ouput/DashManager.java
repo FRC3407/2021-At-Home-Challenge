@@ -139,7 +139,7 @@ public class DashManager extends CommandBase {
   }
 
   private void inputstatic(){
-    num("Controller Port", Constants.controller_port);
+    num("Controller Port", Constants.Ports.Xbox);
   }
 
   private void sonicstatic(){

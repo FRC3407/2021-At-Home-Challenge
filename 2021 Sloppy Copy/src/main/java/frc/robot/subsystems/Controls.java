@@ -5,122 +5,295 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Controls extends SubsystemBase {
-
-    XboxStyle xbox;
-    LegacyStyle legacy;
-    ArcadeStick arcadestick;
-    DualArcade dualstick;
-    ArcadeBoard controlboard;
-
-    controltype controltype;
-
-    public Controls(controltype type, int port){
-        controltype = type;
-        switch(type) {
-            case Xbox : {xbox = new XboxStyle(port); break;}
-            case Legacy : {legacy = new LegacyStyle(port); break;}
-            case Arcade : {arcadestick = new ArcadeStick(port); break;}
-            case Dual : {System.out.println("You need to use the constructor with 2 ports for this to work."); break;}
-            case Board : {System.out.println("You need to use the constructor with 3 ports for this to work."); break;}
-            default : {System.out.println("An error occurred, no controller available.");}
-        }  
-    }
-
-    public Controls(controltype type, int port1, int port2){
-        controltype = type;
-        switch(type) {
-            case Xbox : {xbox = new XboxStyle(port1); break;}
-            case Legacy : {legacy = new LegacyStyle(port1); break;}
-            case Arcade : {arcadestick = new ArcadeStick(port1); break;}
-            case Dual : {dualstick = new DualArcade(port1, port2); break;}
-            case Board : {System.out.println("You need to use the constructor with 3 ports for this to work."); break;}
-            default : {System.out.println("An error occurred, no controller available.");}
-        } 
-    }
-
-    public Controls(controltype type, int port1, int port2, int port3){
-        controltype = type;
-        switch(type) {
-            case Xbox : {xbox = new XboxStyle(port1); break;}
-            case Legacy : {legacy = new LegacyStyle(port1); break;}
-            case Arcade : {arcadestick = new ArcadeStick(port1); break;}
-            case Dual : {dualstick = new DualArcade(port1, port2); break;}
-            case Board : {controlboard = new ArcadeBoard(port1, port2, port3); break;}
-            default : {System.out.println("An error occurred, no controller available.");}
-        } 
-    }
-
-    @Override
-    public void periodic(){
+    public Controls(){
         
-    }
+    };
 
-    public enum controltype {
-        Xbox,
-        Legacy,
-        Arcade,
-        Dual,
-        Board;
-    }
+    // private Input Xbox = new Input(Constants.Ports.Xbox);
+    // private Input Logitech = new Input(Constants.Ports.Logitech);
+    // private Input Extreme = new Input(Constants.Ports.Ex3d);
+    // private Input Attack1 = new Input(Constants.Ports.Atk3_1);
+    // private Input Attack2 = new Input(Constants.Ports.Atk3_2);
 
-    // any controller that follows the xbox keybinds
-    public class XboxStyle {
+    public class Xbox extends ControlClass{
+        public Xbox(){super(Constants.Ports.Xbox);}            
         
-        private Input controller;
+        @Override
+        public double getPriX(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.LX, deadzone, multiplier, power);
+        }
 
-        public XboxStyle(int port){
-            controller = new Input(port);
+        @Override
+        public double getSecX(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.RX, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriY(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.LY, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecY(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.RY, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriTrigger(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.LT, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecTrigger(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Xbox.RT, deadzone, multiplier, power);
+        }
+
+        @Override
+        public JoystickButton getButton1(){
+            return obj.getButton(Constants.Xbox.A);
+        }            
+
+        @Override
+        public JoystickButton getButton2(){
+            return obj.getButton(Constants.Xbox.B);
+        }            
+
+        @Override
+        public JoystickButton getButton3(){
+            return obj.getButton(Constants.Xbox.X);
+        }
+
+        @Override
+        public JoystickButton getButton4(){
+            return obj.getButton(Constants.Xbox.Y);
+        }
+
+        @Override
+        public JoystickButton getUtility1(){
+            return obj.getButton(Constants.Xbox.LB);
+        }
+
+        @Override
+        public JoystickButton getUtility2(){
+            return obj.getButton(Constants.Xbox.RB);
         }
     }
 
-    // legacy controls for the logitech controller, hopefully the drive computer can evenutally use the updated layout...
-    public class LegacyStyle {
+    public class Logitech extends ControlClass {
+        public Logitech(){super(Constants.Ports.Logitech);}
 
-        private Input controller;
+        @Override
+        public double getPriX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.LX, deadzone, multiplier, power);
+        }
 
-        public LegacyStyle(int port){
-            controller = new Input(port);
+        @Override
+        public double getSecX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.RX, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.LY, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.RY, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.LT, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Logi.RT, deadzone, multiplier, power);
+        }
+
+        @Override
+        public JoystickButton getButton1() {
+            return obj.getButton(Constants.Logi.A);
+        }
+
+        @Override
+        public JoystickButton getButton2() {
+            return obj.getButton(Constants.Logi.B);
+        }
+
+        @Override
+        public JoystickButton getButton3() {
+            return obj.getButton(Constants.Logi.X);
+        }
+
+        @Override
+        public JoystickButton getButton4() {
+            return obj.getButton(Constants.Logi.Y);
+        }
+
+        @Override
+        public JoystickButton getUtility1() {
+            return obj.getButton(Constants.Logi.LB);
+        }
+
+        @Override
+        public JoystickButton getUtility2() {
+            return obj.getButton(Constants.Logi.RB);
         }
     }
 
-    // a single arcade stick
-    public class ArcadeStick {
+    public class Attack3 extends ControlClass{
+        public Attack3(int index){super(Constants.Ports.Attack3[index]);}
 
-        private Input stick;
+        @Override
+        public double getPriX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);
+        }
 
-        public ArcadeStick(int port){
-            stick = new Input(port);
+        @Override
+        public double getSecX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public JoystickButton getButton1() {
+            return obj.getButton(Constants.Atk3.Top_Top);
+        }
+
+        @Override
+        public JoystickButton getButton2() {
+            return obj.getButton(Constants.Atk3.Top_Bottom);
+        }
+
+        @Override
+        public JoystickButton getButton3() {
+            return obj.getButton(Constants.Atk3.Top_Left);
+        }
+
+        @Override
+        public JoystickButton getButton4() {
+            return obj.getButton(Constants.Atk3.Top_Right);
+        }
+
+        @Override
+        public JoystickButton getUtility1() {
+            return obj.getButton(Constants.Atk3.B1);
+        }
+
+        @Override
+        public JoystickButton getUtility2() {
+            return obj.getButton(Constants.Atk3.B2);
         }
     }
 
-    // two arcade sticks
-    public class DualArcade {
+    public class Extreme3d extends ControlClass {
+        public Extreme3d(){super(Constants.Ports.Extreme3d);}
 
-        private Input stick1;
-        private Input stick2;
+        @Override
+        public double getPriX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);
+        }
 
-        public DualArcade(int port1, int port2){
-            stick1 = new Input(port1);
-            stick2 = new Input(port2);
+        @Override
+        public double getSecX(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecY(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecTrigger(double deadzone, double multiplier, int power) {
+            return obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public JoystickButton getButton1() {
+            return obj.getButton(Constants.Ex3d.Top_Left_Top);
+        }
+
+        @Override
+        public JoystickButton getButton2() {
+            return obj.getButton(Constants.Ex3d.Top_Right_Top);
+        }
+
+        @Override
+        public JoystickButton getButton3() {
+            return obj.getButton(Constants.Ex3d.Top_Left_Bottom);
+        }
+
+        @Override
+        public JoystickButton getButton4() {
+            return obj.getButton(Constants.Ex3d.Top_Right_Bottom);
+        }
+
+        @Override
+        public JoystickButton getUtility1() {
+            return obj.getButton(Constants.Ex3d.B7);
+        }
+
+        @Override
+        public JoystickButton getUtility2() {
+            return obj.getButton(Constants.Ex3d.B8);
         }
     }
 
-    // the arcade stick board
-    public class ArcadeBoard {
+    public class ControlClass implements ControlInterface {
+        protected Input obj;
+        
+        public ControlClass(int port){obj = new Input(port);}            
+        
+        public double getPriX(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getSecX(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getPriY(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getSecY(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getPriTrigger(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getSecTrigger(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
 
-        private Input stick1;
-        private Input stick2;
-        private Input stick3;
-
-        public ArcadeBoard(int port1, int port2, int port3) {
-            stick1 = new Input(port1);
-            stick2 = new Input(port2);
-            stick3 = new Input(port3);
-        }
+        public JoystickButton getButton1(){return obj.getButton(0);}            
+        public JoystickButton getButton2(){return obj.getButton(0);}            
+        public JoystickButton getButton3(){return obj.getButton(0);}
+        public JoystickButton getButton4(){return obj.getButton(0);}
+        public JoystickButton getUtility1(){return obj.getButton(0);}
+        public JoystickButton getUtility2(){return obj.getButton(0);}
     }
 
     public class Input extends GenericHID {
@@ -133,6 +306,10 @@ public class Controls extends SubsystemBase {
         public double getY(Hand hand){return 0;} 
     
     
+        public JoystickButton getButton(int button){
+            return new JoystickButton(this, button); //make sure use of "this" is correct here
+        }
+
         public double getAxis_offset(int axis, double offset){return getRawAxis(axis)+ offset;}
     
         public double getAxis_multiplier(int axis, double mult){return getRawAxis(axis)*(mult);}
@@ -147,7 +324,7 @@ public class Controls extends SubsystemBase {
         }
     
         /**THIS FUNCTION COMBINES THE THREE ABOVE ^^^. Takes in the axis of the desired stick, 
-         * the deadzone value (if this number is bigger than 1 it will automatically cut off the "mixed number part"so it will be less than 1), 
+         * the deadzone value (if this number is bigger than 1 it will automatically cut off the "mixed number part" so it will be less than 1), 
          * the multiplier value (if this is negative then it inverts the output), and the power (the number of times the raw stick input
          * will be multiplied by itself to simulate more fine control at lower values, but less control at higher ones). At the moment 
          * this fuction is set up so that instead of cutting off all output values (output) bellow the deadzone (input), the first value above the deadzone (output)

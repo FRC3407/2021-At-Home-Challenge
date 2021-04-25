@@ -13,7 +13,7 @@ import frc.robot.Dynamics;
 public class UserInput extends SubsystemBase {
   
   //setup controllers and buttons
-  public XboxController Controller = new XboxController(Constants.controller_port);
+  public XboxController Controller = new XboxController(Constants.Ports.Xbox);
   public JoystickButton Xbutton;
   public JoystickButton Ybutton;
   public JoystickButton Abutton;

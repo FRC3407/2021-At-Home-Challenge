@@ -99,35 +99,35 @@ public final class Dynamics {
         //change the values of the controller buttons
         public void setmode(String mode){
             if(mode.equals("xbox")){
-                controllerButton_A = Constants.x_controllerButton_A;
-                controllerButton_B = Constants.x_controllerButton_B;
-                controllerButton_X = Constants.x_controllerButton_X;
-                controllerButton_Y = Constants.x_controllerButton_Y;
-                controllerButton_menu = Constants.x_controllerButton_menu;
-                controllerButton_home = Constants.x_controllerButton_home;
-                controllerButton_lb = Constants.x_controllerButton_lb;
-                controllerButton_rb = Constants.x_controllerButton_rb;
-                controllerButton_ls = Constants.x_controllerButton_ls;
-                controllerButton_rs = Constants.x_controllerButton_rs;
-                controllerStick_ly = Constants.x_controllerStick_ly;
-                controllerStick_lx = Constants.x_controllerStick_lx;
-                controllerStick_ry = Constants.x_controllerStick_ry;
-                controllerStick_rx = Constants.x_controllerStick_rx;
-                controllerTrigger_l = Constants.x_controllerTrigger_l;
-                controllerTrigger_r = Constants.x_controllerTrigger_r;
+                controllerButton_A = Constants.Xbox.A;
+                controllerButton_B = Constants.Xbox.B;
+                controllerButton_X = Constants.Xbox.X;
+                controllerButton_Y = Constants.Xbox.Y;
+                controllerButton_menu = Constants.Xbox.Menu;
+                controllerButton_home = Constants.Xbox.Home;
+                controllerButton_lb = Constants.Xbox.LB;
+                controllerButton_rb = Constants.Xbox.RB;
+                controllerButton_ls = Constants.Xbox.LS;
+                controllerButton_rs = Constants.Xbox.RS;
+                controllerStick_ly = Constants.Xbox.LY;
+                controllerStick_lx = Constants.Xbox.LX;
+                controllerStick_ry = Constants.Xbox.RY;
+                controllerStick_rx = Constants.Xbox.RX;
+                controllerTrigger_l = Constants.Xbox.LT;
+                controllerTrigger_r = Constants.Xbox.RT;
             }else if(mode.equals("logitech")){
-                controllerButton_A = Constants.l_controllerButton_A;
-                controllerButton_B = Constants.l_controllerButton_B;
-                controllerButton_X = Constants.l_controllerButton_X;
-                controllerButton_Y = Constants.l_controllerButton_Y;
-                controllerButton_menu = Constants.l_controllerButton_menu;
-                controllerButton_home = Constants.l_controllerButton_home;
-                controllerStick_ly = Constants.l_controllerStick_ly;
-                controllerStick_lx = Constants.l_controllerStick_lx;
-                controllerStick_ry = Constants.l_controllerStick_ry;
-                controllerStick_rx = Constants.l_controllerStick_rx;
-                controllerTrigger_l = Constants.l_controllerTrigger_l;
-                controllerTrigger_r = Constants.l_controllerTrigger_r;
+                controllerButton_A = Constants.Logi.A;
+                controllerButton_B = Constants.Logi.B;
+                controllerButton_X = Constants.Logi.X;
+                controllerButton_Y = Constants.Logi.Y;
+                controllerButton_menu = Constants.Logi.Menu;
+                controllerButton_home = Constants.Logi.Home;
+                controllerStick_ly = Constants.Logi.LY;
+                controllerStick_lx = Constants.Logi.LX;
+                controllerStick_ry = Constants.Logi.RY;
+                controllerStick_rx = Constants.Logi.RX;
+                controllerTrigger_l = Constants.Logi.LT;
+                controllerTrigger_r = Constants.Logi.RT;
             }
         }
 }

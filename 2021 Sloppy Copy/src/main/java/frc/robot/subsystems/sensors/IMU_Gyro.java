@@ -10,6 +10,7 @@ import com.analog.adis16470.frc.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants;
 import frc.robot.Dynamics;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IMU_Gyro extends SubsystemBase {
   private ADIS16470_IMU imu = new ADIS16470_IMU();
@@ -60,6 +61,17 @@ public class IMU_Gyro extends SubsystemBase {
     Dynamics.velocityY = velocityY;
     Dynamics.distanceX = distanceX;
     Dynamics.distanceY = distanceY;
+  }
+
+  public void outputdata(){
+    SmartDashboard.putNumber("Acceleration X", accelerationX);
+    SmartDashboard.putNumber("acceleration Y", accelerationY);
+    SmartDashboard.putNumber("Velocity X", velocityX);
+    SmartDashboard.putNumber("Velocity Y", velocityY);
+    SmartDashboard.putNumber("Distance X", distanceX);
+    SmartDashboard.putNumber("Distance Y", distanceY);
+    SmartDashboard.putNumber("Angular Rate", currentRate());
+    SmartDashboard.putNumber("Current Angle", currentAngle());
   }
 
   /**
