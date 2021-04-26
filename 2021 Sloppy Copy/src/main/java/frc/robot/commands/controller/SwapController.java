@@ -30,7 +30,7 @@ public class SwapController extends CommandBase {
       Dynamics.controllerlayout = "xbox";
     }
     RobotContainer.dynamics.setmode(Dynamics.controllerlayout);
-    RobotContainer.input.updateButtons();
+    //RobotContainer.input.updateButtons();
     System.out.println("layout swaped");
     RobotContainer.teleop_drive.schedule();
     finished = true;

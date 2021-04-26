@@ -23,18 +23,18 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double lstick_Y = RobotContainer.input.OPControllerFunc1(Dynamics.controllerStick_ly, Dynamics.deadzone, Dynamics.c1_left_Y_mult, Dynamics.power);
-    double rstick_Y = RobotContainer.input.OPControllerFunc1(Dynamics.controllerStick_ry, Dynamics.deadzone, Dynamics.c1_right_Y_mult, Dynamics.power);
-    double lstick_X = RobotContainer.input.OPControllerFunc1(Dynamics.controllerStick_lx, Dynamics.deadzone, Dynamics.c1_left_X_mult, Dynamics.power);
-    double rstick_X = RobotContainer.input.OPControllerFunc1(Dynamics.controllerStick_rx, Dynamics.deadzone, Dynamics.c1_right_X_mult, Dynamics.power);
-    double ltrigger = RobotContainer.input.OPControllerFunc1(Dynamics.controllerTrigger_l, 0, 1, 2);
-    double rtrigger = RobotContainer.input.OPControllerFunc1(Dynamics.controllerTrigger_r, 0, 1, 2);
+    double lstick_Y = RobotContainer.input.obj.getPriY(Dynamics.deadzone, Dynamics.c1_left_Y_mult, Dynamics.power);
+    double rstick_Y = RobotContainer.input.obj.getSecY(Dynamics.deadzone, Dynamics.c1_right_Y_mult, Dynamics.power);
+    double lstick_X = RobotContainer.input.obj.getPriX(Dynamics.deadzone, Dynamics.c1_left_X_mult, Dynamics.power);
+    double rstick_X = RobotContainer.input.obj.getSecX(Dynamics.deadzone, Dynamics.c1_right_X_mult, Dynamics.power);
+    double ltrigger = RobotContainer.input.obj.getPriTrigger(0, 1, 2);
+    double rtrigger = RobotContainer.input.obj.getSecTrigger(0, 1, 2);
     if(Dynamics.drivemode == "tank"){
       RobotContainer.db_main.tank_drive(lstick_Y, rstick_Y);
       // lstick_Y = decleft;
       // rstick_Y = decright;
     }else if(Dynamics.drivemode == "arcade"){
-      RobotContainer.db_main.arcade_drive(rstick_X, rstick_Y);
+      RobotContainer.db_main.arcade_drive(rstick_Y, rstick_X);
       // double out[] = arcadeConversion(rstick_X, rstick_Y);
       // decleft = out[0];
       // decright = out[1];

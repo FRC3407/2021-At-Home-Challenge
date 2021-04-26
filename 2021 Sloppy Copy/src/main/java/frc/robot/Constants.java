@@ -139,16 +139,16 @@ public final class Constants{
             public static final int LT = 4; //*
             public static final int RT = 5; //*
 
-            public static final int A = 1;
-            public static final int B = 2;
-            public static final int X = 0;
-            public static final int Y = 3;
-            public static final int LB = 4;
-            public static final int RB = 5;
-            public static final int Home = 9; //*
-            public static final int Menu = 8; //*
-            public static final int LS = 6;
-            public static final int RS = 7;
+            public static final int A = 2;
+            public static final int B = 3;
+            public static final int X = 1;
+            public static final int Y = 4;
+            public static final int LB = 5;
+            public static final int RB = 6;
+            public static final int Home = 10; //*
+            public static final int Menu = 9; //*
+            public static final int LS = 7;
+            public static final int RS = 8;
         }
 
         //"Logitech Atk3" arcade stick layout - "Top" means that the button is on the head of the stick, S-Axis is the slider on the back
@@ -157,18 +157,18 @@ public final class Constants{
             public static final int Y_Axis = 1;
             public static final int S_Axis = 2;
 
-            public static final int Trigger = 0;
+            public static final int Trigger = 1;
 
-            public static final int Top_Bottom = 1;
-            public static final int Top_Top = 2;
-            public static final int Top_Left = 3;
-            public static final int Top_Right = 4;
-            public static final int B1 = 5;
-            public static final int B2 = 6;
-            public static final int B3 = 7;
-            public static final int B4 = 8;
-            public static final int B5 = 9;
-            public static final int B6 = 10;
+            public static final int Top_Bottom = 2;
+            public static final int Top_Top = 3;
+            public static final int Top_Left = 4;
+            public static final int Top_Right = 5;
+            public static final int B1 = 6;
+            public static final int B2 = 7;
+            public static final int B3 = 8;
+            public static final int B4 = 9;
+            public static final int B5 = 10;
+            public static final int B6 = 11;
         }
 
         //"Extreme 3D Pro" arcade stick layout - "Top" means on the top of the stick, S-Axis is the slider on the back
@@ -178,18 +178,18 @@ public final class Constants{
             public static final int Z_Axis = 2; //rotation
             public static final int S_Axis = 3;
 
-            public static final int Trigger = 0;
-            public static final int Side = 1;
+            public static final int Trigger = 1;
+            public static final int Side = 2;
 
-            public static final int Top_Left_Bottom = 2;
-            public static final int Top_Right_Bottom = 3;
-            public static final int Top_Left_Top = 4;
-            public static final int Top_Right_Top = 5;
-            public static final int B7 = 6;
-            public static final int B8 = 7;
-            public static final int B9 = 8;
-            public static final int B10 = 9;
-            public static final int B11 = 10;
-            public static final int B12 = 11;
+            public static final int Top_Left_Bottom = 3;
+            public static final int Top_Right_Bottom = 4;
+            public static final int Top_Left_Top = 5;
+            public static final int Top_Right_Top = 6;
+            public static final int B7 = 7;
+            public static final int B8 = 8;
+            public static final int B9 = 9;
+            public static final int B10 = 10;
+            public static final int B11 = 11;
+            public static final int B12 = 12;
         }
 }

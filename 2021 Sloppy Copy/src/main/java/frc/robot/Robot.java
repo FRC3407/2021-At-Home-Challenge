@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     //normal operation mode
     @Override
     public void teleopInit() {
-      RobotContainer.dashboard.schedule();
+      //RobotContainer.dashboard.schedule();
       RobotContainer.teleop_drive.schedule();
       //RobotContainer.distance.schedule();
     }

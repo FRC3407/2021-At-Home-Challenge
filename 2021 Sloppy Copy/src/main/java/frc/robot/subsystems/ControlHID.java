@@ -9,16 +9,46 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Controls extends SubsystemBase {
-    public Controls(){
-        
+public class ControlHID extends SubsystemBase {
+    public ControlClass obj;
+
+    public ControlHID(ControlType type){
+        switch(type){
+            case Xbox : 
+                System.out.println("Xbox Controller Mode"); 
+                obj = new Xbox(); 
+                break;
+            case Logitech : 
+                System.out.println("Logitech Controller Mode"); 
+                obj = new Logitech(); 
+                break;
+            case Attack3 : 
+                System.out.println("Attack3 Arcade Stick Mode"); 
+                obj = new Attack3(0); 
+                break;
+            case Extreme3d : 
+                System.out.println("Extreme3d Arcade Stick Mode"); 
+                obj = new Extreme3d(); 
+                break;
+            case ControlBoard :  
+                System.out.println("Arcade Stick Board Mode"); 
+                obj = new ControlBoard(); 
+                break;
+            default : 
+                System.out.println("ControlType Error");
+        }
     };
 
-    // private Input Xbox = new Input(Constants.Ports.Xbox);
-    // private Input Logitech = new Input(Constants.Ports.Logitech);
-    // private Input Extreme = new Input(Constants.Ports.Ex3d);
-    // private Input Attack1 = new Input(Constants.Ports.Atk3_1);
-    // private Input Attack2 = new Input(Constants.Ports.Atk3_2);
+    @Override
+    public void periodic(){}
+
+    public enum ControlType{
+        Xbox, 
+        Logitech, 
+        Attack3, 
+        Extreme3d, 
+        ControlBoard;
+    }
 
     public class Xbox extends ControlClass{
         public Xbox(){super(Constants.Ports.Xbox);}            
@@ -82,6 +112,14 @@ public class Controls extends SubsystemBase {
         public JoystickButton getUtility2(){
             return obj.getButton(Constants.Xbox.RB);
         }
+
+        public JoystickButton getUtility3(){
+            return obj.getButton(Constants.Xbox.Home);
+        }
+
+        public JoystickButton getUtility4(){
+            return obj.getButton(Constants.Xbox.Menu);
+        }
     }
 
     public class Logitech extends ControlClass {
@@ -109,12 +147,14 @@ public class Controls extends SubsystemBase {
 
         @Override
         public double getPriTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Logi.LT, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Logi.LT) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Logi.LY, deadzone, multiplier, power));
         }
 
         @Override
         public double getSecTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Logi.RT, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Logi.RT) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Logi.RY, deadzone, multiplier, power));       
         }
 
         @Override
@@ -146,6 +186,14 @@ public class Controls extends SubsystemBase {
         public JoystickButton getUtility2() {
             return obj.getButton(Constants.Logi.RB);
         }
+
+        public JoystickButton getUtility3(){
+            return obj.getButton(Constants.Logi.Home);
+        }
+
+        public JoystickButton getUtility4(){
+            return obj.getButton(Constants.Logi.Menu);
+        }
     }
 
     public class Attack3 extends ControlClass{
@@ -173,12 +221,14 @@ public class Controls extends SubsystemBase {
 
         @Override
         public double getPriTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Atk3.Trigger) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
         }
 
         @Override
         public double getSecTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Atk3.Trigger) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
         }
 
         @Override
@@ -210,6 +260,8 @@ public class Controls extends SubsystemBase {
         public JoystickButton getUtility2() {
             return obj.getButton(Constants.Atk3.B2);
         }
+
+        //fill out all buttons later >>
     }
 
     public class Extreme3d extends ControlClass {
@@ -237,12 +289,14 @@ public class Controls extends SubsystemBase {
 
         @Override
         public double getPriTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Ex3d.Trigger) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
         }
 
         @Override
         public double getSecTrigger(double deadzone, double multiplier, int power) {
-            return obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power);
+            int var = obj.getRawButton(Constants.Ex3d.Trigger) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
         }
 
         @Override
@@ -274,19 +328,106 @@ public class Controls extends SubsystemBase {
         public JoystickButton getUtility2() {
             return obj.getButton(Constants.Ex3d.B8);
         }
+
+        //fill out all buttons later >>
+    }
+
+    public class ControlBoard extends ControlClass {
+        public ControlBoard(){super(Constants.Ports.Extreme3d, Constants.Ports.Attack3[0], Constants.Ports.Attack3[1]);}
+
+        @Override
+        public double getPriX(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecX(double deadzone, double multiplier, int power){
+            return obj2.getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);
+        }
+
+        public double getTirX(double deadzone, double multiplier, int power){
+            return obj3.getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriY(double deadzone, double multiplier, int power){
+            return obj.getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getSecY(double deadzone, double multiplier, int power){
+            return obj2.getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);
+        }
+
+        public double getTirY(double deadzone, double multiplier, int power){
+            return obj3.getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);
+        }
+
+        @Override
+        public double getPriTrigger(double deadzone, double multiplier, int power){
+            int var = (obj.getRawButton(Constants.Ex3d.Trigger)) ? 1:0;
+            return var*(obj.getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
+        }
+
+        @Override
+        public double getSecTrigger(double deadzone, double multiplier, int power){
+            int var = (obj2.getRawButton(Constants.Atk3.Trigger)) ? 1:0;
+            return var*(obj2.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
+        }
+
+        public double getTirTrigger(double deadzone, double multiplier, int power){
+            int var = obj3.getRawButton(Constants.Atk3.Trigger) ? 1:0;
+            return var*(obj3.getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
+        }
+
+        //change to make better >>> 
+
+        @Override
+        public JoystickButton getButton1(){
+            return obj.getButton(Constants.Ex3d.Trigger);
+        }        
+        
+        @Override
+        public JoystickButton getButton2(){
+            return obj.getButton(Constants.Ex3d.Side);
+        }        
+        
+        @Override
+        public JoystickButton getButton3(){
+            return obj2.getButton(Constants.Atk3.Trigger);
+        }
+
+        @Override
+        public JoystickButton getButton4(){
+            return obj3.getButton(Constants.Atk3.Trigger);
+        }
+
+        @Override
+        public JoystickButton getUtility1(){
+            return obj2.getButton(Constants.Atk3.Top_Top);
+        }
+
+        @Override
+        public JoystickButton getUtility2(){
+            return obj3.getButton(Constants.Atk3.Top_Top);
+        }
     }
 
     public class ControlClass implements ControlInterface {
         protected Input obj;
+        protected Input obj2;
+        protected Input obj3;
         
-        public ControlClass(int port){obj = new Input(port);}            
+        public ControlClass(int port){obj = new Input(port);}    
+        public ControlClass(int port, int port2){obj = new Input(port); obj2 = new Input(port2);}
+        public ControlClass(int port, int port2, int port3){obj = new Input(port); obj2 = new Input(port2); obj3 = new Input(port3);}        
         
-        public double getPriX(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
-        public double getSecX(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
-        public double getPriY(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
-        public double getSecY(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
-        public double getPriTrigger(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
-        public double getSecTrigger(double deadzone, double multiplier, int power){return obj.getAxis_largeconvert(0, deadzone, multiplier, power);}
+        public double getPriX(double deadzone, double multiplier, int power){return 0;}
+        public double getSecX(double deadzone, double multiplier, int power){return 0;}
+        public double getPriY(double deadzone, double multiplier, int power){return 0;}
+        public double getSecY(double deadzone, double multiplier, int power){return 0;}
+        public double getPriTrigger(double deadzone, double multiplier, int power){return 0;}
+        public double getSecTrigger(double deadzone, double multiplier, int power){return 0;}
 
         public JoystickButton getButton1(){return obj.getButton(0);}            
         public JoystickButton getButton2(){return obj.getButton(0);}            
