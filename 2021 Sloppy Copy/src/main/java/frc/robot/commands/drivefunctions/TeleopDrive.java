@@ -23,12 +23,12 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double lstick_Y = RobotContainer.input.obj.getPriY(Dynamics.deadzone, Dynamics.c1_left_Y_mult, Dynamics.power);
-    double rstick_Y = RobotContainer.input.obj.getSecY(Dynamics.deadzone, Dynamics.c1_right_Y_mult, Dynamics.power);
-    double lstick_X = RobotContainer.input.obj.getPriX(Dynamics.deadzone, Dynamics.c1_left_X_mult, Dynamics.power);
-    double rstick_X = RobotContainer.input.obj.getSecX(Dynamics.deadzone, Dynamics.c1_right_X_mult, Dynamics.power);
-    double ltrigger = RobotContainer.input.obj.getPriTrigger(0, 1, 2);
-    double rtrigger = RobotContainer.input.obj.getSecTrigger(0, 1, 2);
+    double lstick_Y = RobotContainer.input.getInput().getPriY(Dynamics.deadzone, Dynamics.c1_left_Y_mult, Dynamics.power);
+    double rstick_Y = RobotContainer.input.getInput().getSecY(Dynamics.deadzone, Dynamics.c1_right_Y_mult, Dynamics.power);
+    double lstick_X = RobotContainer.input.getInput().getPriX(Dynamics.deadzone, Dynamics.c1_left_X_mult, Dynamics.power);
+    double rstick_X = RobotContainer.input.getInput().getSecX(Dynamics.deadzone, Dynamics.c1_right_X_mult, Dynamics.power);
+    double ltrigger = RobotContainer.input.getInput().getPriTrigger(0, 1, 2);
+    double rtrigger = RobotContainer.input.getInput().getSecTrigger(0, 1, 2);
     if(Dynamics.drivemode == "tank"){
       RobotContainer.db_main.tank_drive(lstick_Y, rstick_Y);
       // lstick_Y = decleft;

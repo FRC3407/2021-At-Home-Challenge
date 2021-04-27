@@ -10,7 +10,7 @@ import frc.robot.commands.controller.CancelAll;
 import frc.robot.subsystems.sensors.ColorSense;
 import frc.robot.subsystems.hardware.DriveTrain;
 import frc.robot.subsystems.sensors.IMU_Gyro;
-import frc.robot.subsystems.ControlHID;
+import frc.robot.subsystems.input.Input;
 import frc.robot.commands.controller.DriveMode;
 import frc.robot.commands.drivefunctions.Decelerate;
 import frc.robot.commands.drivefunctions.GyroStraight;
@@ -27,7 +27,7 @@ public class RobotContainer {
   public static IMU_Gyro imu = new IMU_Gyro();
   //public static CameraArray camarr = new CameraArray();
   //public static UltrasonicArray sonic = new UltrasonicArray();
-  public static ControlHID input = new ControlHID(ControlHID.ControlType.Xbox);
+  public static Input input = new Input(Input.InputType.Xbox);
   
   //commmand instance creation
   public static Decelerate decelerate;
@@ -68,8 +68,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //input.obj.getButton1().whenPressed(stop);
-    input.obj.getUtility1().whenPressed(drivemode_left);
-    input.obj.getUtility2().whenPressed(drivemode_right);
+    input.getInput().getUtility1().whenPressed(drivemode_left);
+    input.getInput().getUtility2().whenPressed(drivemode_right);
   }
 
   private void registerSubsystems(){

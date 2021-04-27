@@ -108,6 +108,9 @@ public final class Constants{
         //drivemodes
         public static String drivemodes[] = {"tank", "arcade", "race", "trigger"};
 
+        //maximum number of controllers that can be accessed within a single InputBase object
+        public static final int maximum_controlobjs = 3;
+
         //Xbox controller layout - can also apply to the logitech controller if it is switched that way with the switch on the back of it
         public static final class Xbox{
             public static final int LX = 0;

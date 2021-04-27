@@ -92,42 +92,5 @@ public final class Dynamics {
     // * * * * METHODS * * * * 
 
         //constructor -> make sure controller buttons have a value before anything tries to access them
-        public Dynamics(){
-            setmode(controllerlayout);
-        }
-
-        //change the values of the controller buttons
-        public void setmode(String mode){
-            if(mode.equals("xbox")){
-                controllerButton_A = Constants.Xbox.A;
-                controllerButton_B = Constants.Xbox.B;
-                controllerButton_X = Constants.Xbox.X;
-                controllerButton_Y = Constants.Xbox.Y;
-                controllerButton_menu = Constants.Xbox.Menu;
-                controllerButton_home = Constants.Xbox.Home;
-                controllerButton_lb = Constants.Xbox.LB;
-                controllerButton_rb = Constants.Xbox.RB;
-                controllerButton_ls = Constants.Xbox.LS;
-                controllerButton_rs = Constants.Xbox.RS;
-                controllerStick_ly = Constants.Xbox.LY;
-                controllerStick_lx = Constants.Xbox.LX;
-                controllerStick_ry = Constants.Xbox.RY;
-                controllerStick_rx = Constants.Xbox.RX;
-                controllerTrigger_l = Constants.Xbox.LT;
-                controllerTrigger_r = Constants.Xbox.RT;
-            }else if(mode.equals("logitech")){
-                controllerButton_A = Constants.Logi.A;
-                controllerButton_B = Constants.Logi.B;
-                controllerButton_X = Constants.Logi.X;
-                controllerButton_Y = Constants.Logi.Y;
-                controllerButton_menu = Constants.Logi.Menu;
-                controllerButton_home = Constants.Logi.Home;
-                controllerStick_ly = Constants.Logi.LY;
-                controllerStick_lx = Constants.Logi.LX;
-                controllerStick_ry = Constants.Logi.RY;
-                controllerStick_rx = Constants.Logi.RX;
-                controllerTrigger_l = Constants.Logi.LT;
-                controllerTrigger_r = Constants.Logi.RT;
-            }
-        }
+        public Dynamics(){}
 }

@@ -29,7 +29,7 @@ public class SwapController extends CommandBase {
     }else if(Dynamics.controllerlayout.equals("logitech")){
       Dynamics.controllerlayout = "xbox";
     }
-    RobotContainer.dynamics.setmode(Dynamics.controllerlayout);
+    //RobotContainer.dynamics.setmode(Dynamics.controllerlayout);
     //RobotContainer.input.updateButtons();
     System.out.println("layout swaped");
     RobotContainer.teleop_drive.schedule();
