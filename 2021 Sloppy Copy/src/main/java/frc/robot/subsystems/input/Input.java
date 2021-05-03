@@ -5,6 +5,7 @@
 package frc.robot.subsystems.input;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +31,10 @@ public class Input extends SubsystemBase {
                 System.out.println("Extreme3d Arcade Stick Mode"); 
                 Controller = new Extreme3d(); 
                 break;
+            case DualArcade :
+                System.out.println("Dualstick Arcade Mode");
+                Controller = new DualArcade();
+                break;
             case ControlBoard :  
                 System.out.println("Arcade Stick Board Mode"); 
                 Controller = new ControlBoard(); 
@@ -37,7 +42,7 @@ public class Input extends SubsystemBase {
             default : 
                 System.out.println("InputType Error");
         }
-    };
+    }
 
     @Override
     public void periodic(){}
@@ -51,24 +56,27 @@ public class Input extends SubsystemBase {
         Logitech, 
         Attack3, 
         Extreme3d, 
+        DualArcade,
         ControlBoard;
     }
 
     public class Xbox extends InputBase{
-        public Xbox(){super(Constants.Ports.Xbox);} 
+        public Xbox(){super(Constants.Xbox.Port);} 
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Xbox.deadzone, Constants.Xbox.sensitivity, Constants.Xbox.smoothing);}
         
         @Override
-        public double getPriX(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.LX, deadzone, multiplier, power);}
+        public double getPriX(){return getBase(Constants.Xbox.LX);}
         @Override
-        public double getSecX(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.RX, deadzone, multiplier, power);}
+        public double getSecX(){return getBase(Constants.Xbox.RX);}
         @Override
-        public double getPriY(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.LY, deadzone, multiplier, power);}
+        public double getPriY(){return getBase(Constants.Xbox.LY);}
         @Override
-        public double getSecY(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.RY, deadzone, multiplier, power);}
+        public double getSecY(){return getBase(Constants.Xbox.RY);}
         @Override
-        public double getPriTrigger(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.LT, deadzone, multiplier, power);}
+        public double getPriTrigger(){return getBase(Constants.Xbox.LT);}
         @Override
-        public double getSecTrigger(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Xbox.RT, deadzone, multiplier, power);}
+        public double getSecTrigger(){return getBase(Constants.Xbox.RT);}
 
         @Override
         public JoystickButton getButton1(){return Controller[0].getButton(Constants.Xbox.A);}            
@@ -89,25 +97,27 @@ public class Input extends SubsystemBase {
     }
 
     public class Logitech extends InputBase {
-        public Logitech(){super(Constants.Ports.Logitech);}
+        public Logitech(){super(Constants.Logi.Port);}
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Logi.deadzone, Constants.Logi.sensitivity, Constants.Logi.smoothing);}
 
         @Override
-        public double getPriX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Logi.LX, deadzone, multiplier, power);}
+        public double getPriX() {return getBase(Constants.Logi.LX);}
         @Override
-        public double getSecX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Logi.RX, deadzone, multiplier, power);}
+        public double getSecX() {return getBase(Constants.Logi.RX);}
         @Override
-        public double getPriY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Logi.LY, deadzone, multiplier, power);}
+        public double getPriY() {return getBase(Constants.Logi.LY);}
         @Override
-        public double getSecY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Logi.RY, deadzone, multiplier, power);}
+        public double getSecY() {return getBase(Constants.Logi.RY);}
         @Override
-        public double getPriTrigger(double deadzone, double multiplier, int power) {
+        public double getPriTrigger() {
             int var = Controller[0].getRawButton(Constants.Logi.LT) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Logi.LY, deadzone, multiplier, power));
+            return var*(getBase(Constants.Logi.LY));
         }
         @Override
-        public double getSecTrigger(double deadzone, double multiplier, int power) {
+        public double getSecTrigger() {
             int var = Controller[0].getRawButton(Constants.Logi.RT) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Logi.RY, deadzone, multiplier, power));
+            return var*(getBase(Constants.Logi.RY));
         }
 
         @Override
@@ -129,25 +139,27 @@ public class Input extends SubsystemBase {
     }
 
     public class Attack3 extends InputBase{
-        public Attack3(int index){super(Constants.Ports.Attack3[index]);}
+        public Attack3(int index){super(Constants.Atk3.Port[index]);}
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Atk3.deadzone, Constants.Atk3.sensitivity, Constants.Atk3.smoothing);}
 
         @Override
-        public double getPriX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);}
+        public double getPriX() {return getBase(Constants.Atk3.X_Axis);}
         @Override
-        public double getSecX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);}
+        public double getSecX() {return getBase(Constants.Atk3.X_Axis);}
         @Override
-        public double getPriY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);}
+        public double getPriY() {return getBase(Constants.Atk3.Y_Axis);}
         @Override
-        public double getSecY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);}
+        public double getSecY() {return getBase(Constants.Atk3.Y_Axis);}
         @Override
-        public double getPriTrigger(double deadzone, double multiplier, int power) {
+        public double getPriTrigger() {
             int var = Controller[0].getRawButton(Constants.Atk3.Trigger) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
+            return var*(getBase(Constants.Atk3.S_Axis));
         }
         @Override
-        public double getSecTrigger(double deadzone, double multiplier, int power) {
+        public double getSecTrigger() {
             int var = Controller[0].getRawButton(Constants.Atk3.Trigger) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
+            return var*(getBase(Constants.Atk3.S_Axis));
         }
 
         public JoystickButton getTrigger() {return Controller[0].getButton(Constants.Atk3.Trigger);}
@@ -171,25 +183,27 @@ public class Input extends SubsystemBase {
     }
 
     public class Extreme3d extends InputBase {
-        public Extreme3d(){super(Constants.Ports.Extreme3d);}
+        public Extreme3d(){super(Constants.Ex3d.Port);}
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Ex3d.deadzone, Constants.Ex3d.sensitivity, Constants.Ex3d.smoothing);}
 
         @Override
-        public double getPriX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);}
+        public double getPriX() {return getBase(Constants.Ex3d.X_Axis);}
         @Override
-        public double getSecX(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);}
+        public double getSecX() {return getBase(Constants.Ex3d.X_Axis);}
         @Override
-        public double getPriY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);}
+        public double getPriY() {return getBase(Constants.Ex3d.Y_Axis);}
         @Override
-        public double getSecY(double deadzone, double multiplier, int power) {return Controller[0].getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);}
+        public double getSecY() {return getBase(Constants.Ex3d.Y_Axis);}
         @Override
-        public double getPriTrigger(double deadzone, double multiplier, int power) {
+        public double getPriTrigger() {
             int var = Controller[0].getRawButton(Constants.Ex3d.Trigger) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
+            return var*(getBase(Constants.Ex3d.S_Axis));
         }
         @Override
-        public double getSecTrigger(double deadzone, double multiplier, int power) {
+        public double getSecTrigger() {
             int var = Controller[0].getRawButton(Constants.Ex3d.Side) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
+            return var*(getBase(Constants.Ex3d.S_Axis));
         }
         
         public JoystickButton getTrigger() {return Controller[0].getButton(Constants.Ex3d.Trigger);}
@@ -213,31 +227,74 @@ public class Input extends SubsystemBase {
         public JoystickButton getUtility6() {return Controller[0].getButton(Constants.Ex3d.B12);}
     }
 
-    public class ControlBoard extends InputBase {
-        public ControlBoard(){super(Constants.Ports.Extreme3d, Constants.Ports.Attack3[0], Constants.Ports.Attack3[1]);}
+    public class DualArcade extends InputBase {
+        public DualArcade(){super(Constants.Ex3d.Port, Constants.Atk3.Port[0]);}
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Ex3d.deadzone, Constants.Ex3d.sensitivity, Constants.Ex3d.smoothing);}
+        private double getBase2(int axis){return Controller[1].getAxis_largeconvert(axis, Constants.Atk3.deadzone, Constants.Atk3.sensitivity, Constants.Atk3.smoothing);}
 
         @Override
-        public double getPriX(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Ex3d.X_Axis, deadzone, multiplier, power);}
+        public double getPriX(){return getBase(Constants.Ex3d.X_Axis);}
         @Override
-        public double getSecX(double deadzone, double multiplier, int power){return Controller[1].getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);}
-        public double getTirX(double deadzone, double multiplier, int power){return Controller[2].getAxis_largeconvert(Constants.Atk3.X_Axis, deadzone, multiplier, power);}
+        public double getSecX(){return getBase2(Constants.Atk3.X_Axis);}
         @Override
-        public double getPriY(double deadzone, double multiplier, int power){return Controller[0].getAxis_largeconvert(Constants.Ex3d.Y_Axis, deadzone, multiplier, power);}
+        public double getPriY(){return getBase(Constants.Ex3d.Y_Axis);}
         @Override
-        public double getSecY(double deadzone, double multiplier, int power){return Controller[1].getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);}
-        public double getTirY(double deadzone, double multiplier, int power){return Controller[2].getAxis_largeconvert(Constants.Atk3.Y_Axis, deadzone, multiplier, power);}
+        public double getSecY(){return getBase2(Constants.Atk3.Y_Axis);}
         @Override
-        public double getPriTrigger(double deadzone, double multiplier, int power){
+        public double getPriTrigger(){
             int var = (Controller[0].getRawButton(Constants.Ex3d.Trigger)) ? 1:0;
-            return var*(Controller[0].getAxis_largeconvert(Constants.Ex3d.S_Axis, deadzone, multiplier, power));
+            return var*(getBase(Constants.Ex3d.S_Axis));
         }
         @Override
-        public double getSecTrigger(double deadzone, double multiplier, int power){
+        public double getSecTrigger(){
             int var = (Controller[1].getRawButton(Constants.Atk3.Trigger)) ? 1:0;
-            return var*(Controller[1].getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));}
-        public double getTirTrigger(double deadzone, double multiplier, int power){
+            return var*(getBase2(Constants.Atk3.S_Axis));}
+
+        //change to make better >>> 
+        @Override
+        public JoystickButton getButton1(){return Controller[1].getButton(Constants.Atk3.Top_Left);}            
+        @Override
+        public JoystickButton getButton2(){return Controller[1].getButton(Constants.Atk3.Top_Right);}        
+        @Override
+        public JoystickButton getButton3(){return Controller[1].getButton(Constants.Atk3.Top_Top);}
+        @Override
+        public JoystickButton getButton4(){return Controller[1].getButton(Constants.Atk3.Top_Bottom);}
+        @Override
+        public JoystickButton getUtility1(){return Controller[0].getButton(Constants.Ex3d.Top_Left_Top);}
+        @Override
+        public JoystickButton getUtility2(){return Controller[0].getButton(Constants.Ex3d.Top_Right_Top);}
+    }
+
+    public class ControlBoard extends InputBase {
+        public ControlBoard(){super(Constants.Ex3d.Port, Constants.Atk3.Port[0], Constants.Atk3.Port[1]);}
+
+        private double getBase(int axis){return Controller[0].getAxis_largeconvert(axis, Constants.Ex3d.deadzone, Constants.Ex3d.sensitivity, Constants.Ex3d.smoothing);}
+        private double getBase2(int axis){return Controller[1].getAxis_largeconvert(axis, Constants.Atk3.deadzone, Constants.Atk3.sensitivity, Constants.Atk3.smoothing);}
+        private double getBase3(int axis){return Controller[2].getAxis_largeconvert(axis, Constants.Atk3.deadzone, Constants.Atk3.sensitivity, Constants.Atk3.smoothing);}
+
+        @Override
+        public double getPriX(){return getBase(Constants.Ex3d.X_Axis);}
+        @Override
+        public double getSecX(){return getBase2(Constants.Atk3.X_Axis);}
+        public double getTirX(){return getBase3(Constants.Atk3.X_Axis);}
+        @Override
+        public double getPriY(){return getBase(Constants.Ex3d.Y_Axis);}
+        @Override
+        public double getSecY(){return getBase2(Constants.Atk3.Y_Axis);}
+        public double getTirY(){return getBase3(Constants.Atk3.Y_Axis);}
+        @Override
+        public double getPriTrigger(){
+            int var = (Controller[0].getRawButton(Constants.Ex3d.Trigger)) ? 1:0;
+            return var*(getBase(Constants.Ex3d.S_Axis));
+        }
+        @Override
+        public double getSecTrigger(){
+            int var = (Controller[1].getRawButton(Constants.Atk3.Trigger)) ? 1:0;
+            return var*(getBase2(Constants.Atk3.S_Axis));}
+        public double getTirTrigger(){
             int var = Controller[2].getRawButton(Constants.Atk3.Trigger) ? 1:0;
-            return var*(Controller[2].getAxis_largeconvert(Constants.Atk3.S_Axis, deadzone, multiplier, power));
+            return var*(getBase3(Constants.Atk3.S_Axis));
         }
 
         //change to make better >>> 
@@ -256,7 +313,7 @@ public class Input extends SubsystemBase {
     }
 
     public class InputBase {
-        protected InputDevice[] Controller = new InputDevice[Constants.maximum_controlobjs];
+        protected InputDevice[] Controller = new InputDevice[3];
         
         public InputBase(int port){Controller[0] = new InputDevice(port); Controller[1] = null; Controller[2] = null;}    
         public InputBase(int port, int port2){Controller[0] = new InputDevice(port); Controller[1] = new InputDevice(port2); Controller[2] = null;}
@@ -265,12 +322,12 @@ public class Input extends SubsystemBase {
         public InputDevice[] getDevices(){return Controller;}
         public int getActiveDevices(){return Controller[2] != null ? 3:(Controller[1] != null ? 2:(Controller[0] != null ? 1:0));}
         
-        public double getPriX(double deadzone, double multiplier, int power){return 0;}
-        public double getSecX(double deadzone, double multiplier, int power){return 0;}
-        public double getPriY(double deadzone, double multiplier, int power){return 0;}
-        public double getSecY(double deadzone, double multiplier, int power){return 0;}
-        public double getPriTrigger(double deadzone, double multiplier, int power){return 0;}
-        public double getSecTrigger(double deadzone, double multiplier, int power){return 0;}
+        public double getPriX(){return 0;}
+        public double getSecX(){return 0;}
+        public double getPriY(){return 0;}
+        public double getSecY(){return 0;}
+        public double getPriTrigger(){return 0;}
+        public double getSecTrigger(){return 0;}
 
         public JoystickButton getButton1(){return Controller[0].getButton(0);}            
         public JoystickButton getButton2(){return Controller[0].getButton(0);}            
@@ -321,6 +378,7 @@ public class Input extends SubsystemBase {
             if (Math.abs(raw)<threshold){
                 ret = 0.0;
             }
+            MathUtil.clamp(ret, -Constants.speed_cap, Constants.speed_cap);
             return ret;
         }
     
@@ -341,6 +399,7 @@ public class Input extends SubsystemBase {
             if (Math.abs(raw)<threshold){
                 ret = 0.0;
             }
+            MathUtil.clamp(ret, -Constants.speed_cap, Constants.speed_cap);
             return ret;
         }
     }

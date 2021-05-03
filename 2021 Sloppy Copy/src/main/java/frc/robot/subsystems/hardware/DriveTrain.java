@@ -5,55 +5,92 @@
 package frc.robot.subsystems.hardware;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.Constants;
-import frc.robot.Dynamics;
 
 public class DriveTrain extends SubsystemBase {
   //DriveBase motors and groups setup
-  private SpeedController db_fl = new PWMVictorSPX(Constants.front_left_chan);
-  private SpeedController db_fr = new PWMVictorSPX(Constants.front_right_chan);
-  private SpeedController db_bl = new PWMVictorSPX(Constants.back_left_chan);
-  private SpeedController db_br = new PWMVictorSPX(Constants.back_right_chan);
+  private SpeedController db_fl = new PWMVictorSPX(Constants.DriveBase.frontleft);
+  private SpeedController db_fr = new PWMVictorSPX(Constants.DriveBase.frontright);
+  private SpeedController db_bl = new PWMVictorSPX(Constants.DriveBase.backleft);
+  private SpeedController db_br = new PWMVictorSPX(Constants.DriveBase.backright);
+
   private SpeedControllerGroup db_left = new SpeedControllerGroup(db_fl, db_bl);
   private SpeedControllerGroup db_right = new SpeedControllerGroup(db_fr, db_br);
+  
   private DifferentialDrive drive_main = new DifferentialDrive(db_left, db_right);
 
 //Constructor method
   /** Creates a new DriveTrain. */
   public DriveTrain(){
-    db_right.setInverted(Dynamics.db_right_invt);
-    db_left.setInverted(Dynamics.db_left_invt);
+    db_right.setInverted(Constants.DriveBase.invert_right);
+    db_left.setInverted(Constants.DriveBase.invert_left);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
   }
 
-
-  // * * * * * Start of custom methods * * * * * 
+  /**https://www.desmos.com/calculator/x7irxhldzv
+   * **/
+  public double boostAlg(double input){
+    return MathUtil.clamp((input + Constants.boost)/MathUtil.clamp(((Constants.boost + Math.abs(Constants.GeneralInput.sensitivity))/Constants.speed_cap), 0.5, 1.375), -Constants.speed_cap, Constants.speed_cap);
+  }
 
   public void tank_drive(double left_speed, double right_speed){
-    drive_main.tankDrive(left_speed, right_speed, Dynamics.default_squareinp);
+    drive_main.tankDrive(left_speed, right_speed, Constants.default_smoothing);
+  }
+
+  public void tank_drive(double left_speed, double right_speed, boolean boost){
+    if(boost){
+      drive_main.tankDrive(boostAlg(left_speed), boostAlg(right_speed), Constants.default_smoothing);
+    }else{
+      drive_main.tankDrive(left_speed, right_speed, Constants.default_smoothing);
+    }
   }
 
   public void arcade_drive(double x_axis, double y_axis){
-    drive_main.arcadeDrive(x_axis, y_axis, Dynamics.default_squareinp);
+    drive_main.arcadeDrive(x_axis, y_axis, Constants.default_smoothing);
+  }
+
+  public void arcade_drive(double x_axis, double y_axis, boolean boost){
+    if(boost){
+      drive_main.arcadeDrive(boostAlg(x_axis), boostAlg(y_axis), Constants.default_smoothing);
+    }else{
+      drive_main.arcadeDrive(x_axis, y_axis, Constants.default_smoothing);
+    }
   }
 
   /**The point of this method is for the controller triggers to be the forward and backwards parameters, and the rotation to be the x-axis of one of the sticks (left and right) */
   public void race_drive(double forward, double backward, double rotation){
     double cumulative = forward - backward;
-    drive_main.arcadeDrive(cumulative, rotation, Dynamics.default_squareinp);
+    drive_main.arcadeDrive(cumulative, rotation, Constants.default_smoothing);
+  }
+
+  public void race_drive(double forward, double backward, double rotation, boolean boost){
+    double cumulative = forward - backward;
+    if(boost){
+      drive_main.arcadeDrive(boostAlg(cumulative), boostAlg(rotation), Constants.default_smoothing);
+    }else{
+      drive_main.arcadeDrive(cumulative, rotation, Constants.default_smoothing);
+    }
   }
 
   public void trigger_drive(double ltrig, double rtrig){
-    drive_main.tankDrive(ltrig, rtrig, Dynamics.default_squareinp);
+    drive_main.tankDrive(ltrig, rtrig, Constants.default_smoothing);
+  }
+
+  public void trigger_drive(double ltrig, double rtrig, boolean boost){
+    if(boost){
+      drive_main.tankDrive(boostAlg(ltrig), boostAlg(rtrig), Constants.default_smoothing);
+    }else{
+      drive_main.tankDrive(ltrig, rtrig, Constants.default_smoothing);
+    }
   }
 
   //basic side control
@@ -71,13 +108,5 @@ public class DriveTrain extends SubsystemBase {
 
   public double rightspeed(){
     return db_right.get();
-  }
-
-
-  
-//default periodic functions
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }

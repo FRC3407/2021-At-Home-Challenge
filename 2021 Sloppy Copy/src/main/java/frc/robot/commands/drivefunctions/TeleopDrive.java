@@ -7,6 +7,7 @@ package frc.robot.commands.drivefunctions;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Dynamics;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DriveModes;
 
 public class TeleopDrive extends CommandBase {
   // private double decleft, decright;
@@ -23,33 +24,34 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double lstick_Y = RobotContainer.input.getInput().getPriY(Dynamics.deadzone, Dynamics.c1_left_Y_mult, Dynamics.power);
-    double rstick_Y = RobotContainer.input.getInput().getSecY(Dynamics.deadzone, Dynamics.c1_right_Y_mult, Dynamics.power);
-    double lstick_X = RobotContainer.input.getInput().getPriX(Dynamics.deadzone, Dynamics.c1_left_X_mult, Dynamics.power);
-    double rstick_X = RobotContainer.input.getInput().getSecX(Dynamics.deadzone, Dynamics.c1_right_X_mult, Dynamics.power);
-    double ltrigger = RobotContainer.input.getInput().getPriTrigger(0, 1, 2);
-    double rtrigger = RobotContainer.input.getInput().getSecTrigger(0, 1, 2);
-    if(Dynamics.drivemode == "tank"){
-      RobotContainer.db_main.tank_drive(lstick_Y, rstick_Y);
+    double lstick_Y = RobotContainer.input.getInput().getPriY();
+    double rstick_Y = RobotContainer.input.getInput().getSecY();
+    double lstick_X = RobotContainer.input.getInput().getPriX();
+    double rstick_X = RobotContainer.input.getInput().getSecX();
+    double ltrigger = RobotContainer.input.getInput().getPriTrigger();
+    double rtrigger = RobotContainer.input.getInput().getSecTrigger();
+    boolean boostButton = RobotContainer.input.getInput().getButton1().get();
+    if(Dynamics.drivemode == DriveModes.Tank){
+      RobotContainer.db_main.tank_drive(lstick_Y, rstick_Y, boostButton);
       // lstick_Y = decleft;
       // rstick_Y = decright;
-    }else if(Dynamics.drivemode == "arcade"){
-      RobotContainer.db_main.arcade_drive(rstick_Y, rstick_X);
+    }else if(Dynamics.drivemode == DriveModes.Arcade){
+      RobotContainer.db_main.arcade_drive(rstick_Y, rstick_X, boostButton);
       // double out[] = arcadeConversion(rstick_X, rstick_Y);
       // decleft = out[0];
       // decright = out[1];
-    }else if(Dynamics.drivemode == "race"){
-      RobotContainer.db_main.race_drive(ltrigger, rtrigger, rstick_X);
+    }else if(Dynamics.drivemode == DriveModes.Race){
+      RobotContainer.db_main.race_drive(ltrigger, rtrigger, rstick_X, boostButton);
       // double comb = ltrigger - rtrigger;
       // double out[] = arcadeConversion(comb, rstick_X);
       // decleft = out[1];
       // decright = out[0];
-    }else if(Dynamics.drivemode == "trigger"){
-      RobotContainer.db_main.trigger_drive(ltrigger, rtrigger);
+    }else if(Dynamics.drivemode == DriveModes.Trigger){
+      RobotContainer.db_main.trigger_drive(ltrigger, rtrigger, boostButton);
       // ltrigger = decleft;
       // rtrigger = decright;
     }else{
-      System.out.println("drivemode error");
+      System.out.println("Drivemode Error");
     }
    }
 

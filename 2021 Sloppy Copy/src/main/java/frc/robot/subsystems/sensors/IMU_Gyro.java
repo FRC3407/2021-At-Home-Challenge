@@ -20,9 +20,9 @@ public class IMU_Gyro extends SubsystemBase {
 
   /** Creates a new IMU_Gyro. */
   public IMU_Gyro() {
-    imu.setYawAxis(Constants.imu_yaw);
-    imu.configCalTime(Constants.imu_caltime);
-    Dynamics.initAngle = currentAngle();
+    imu.setYawAxis(Constants.IMU.yaw);
+    imu.configCalTime(Constants.IMU.calibrationtime);
+    Dynamics.DataBus.initAngle = currentAngle();
   }
 
   @Override
@@ -54,13 +54,13 @@ public class IMU_Gyro extends SubsystemBase {
   }
 
   public void dynamic_update(){
-    Dynamics.currentAngle = currentAngle();
-    Dynamics.accelerationX = accelerationX;
-    Dynamics.accelerationY = accelerationY;
-    Dynamics.velocityX = velocityX;
-    Dynamics.velocityY = velocityY;
-    Dynamics.distanceX = distanceX;
-    Dynamics.distanceY = distanceY;
+    Dynamics.DataBus.currentAngle = currentAngle();
+    Dynamics.DataBus.accelerationX = accelerationX;
+    Dynamics.DataBus.accelerationY = accelerationY;
+    Dynamics.DataBus.velocityX = velocityX;
+    Dynamics.DataBus.velocityY = velocityY;
+    Dynamics.DataBus.distanceX = distanceX;
+    Dynamics.DataBus.distanceY = distanceY;
   }
 
   public void outputdata(){

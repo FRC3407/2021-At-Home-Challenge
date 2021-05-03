@@ -16,7 +16,7 @@ import frc.robot.Dynamics;
 
 public class ColorSense extends SubsystemBase {
   
-  private ColorSensorV3 colorsrc = new ColorSensorV3(Constants.colorsensor_port);
+  private ColorSensorV3 colorsrc = new ColorSensorV3(Constants.ColorSensor.location);
   private ColorMatch colormatcher = new ColorMatch();
   private double redarr[] = {0.0, 0.0, 0.0};
   private double greenarr[] = {0.0, 0.0, 0.0};
@@ -25,7 +25,7 @@ public class ColorSense extends SubsystemBase {
 
   /** Creates a new ColorSense. */
   public ColorSense() {
-    colorsrc.configureColorSensor(Constants.color_res, Constants.color_rate, Constants.color_gain);
+    colorsrc.configureColorSensor(Constants.ColorSensor.resolution, Constants.ColorSensor.samplerate, Constants.ColorSensor.gain);
     coloravg_setup();
   }
 
@@ -36,13 +36,13 @@ public class ColorSense extends SubsystemBase {
   }
 
   public void updatevars(){
-    Dynamics.red = colorsrc.getRed();
-    Dynamics.green = colorsrc.getGreen();
-    Dynamics.blue = colorsrc.getBlue();
-    Dynamics.infrared = colorsrc.getIR();
-    Dynamics.proximity = colorsrc.getProximity();
-    Dynamics.closestColor = colorsrc.getColor();
-    Dynamics.colorposition = colorsrc.getCIEColor(); 
+    Dynamics.DataBus.red = colorsrc.getRed();
+    Dynamics.DataBus.green = colorsrc.getGreen();
+    Dynamics.DataBus.blue = colorsrc.getBlue();
+    Dynamics.DataBus.infrared = colorsrc.getIR();
+    Dynamics.DataBus.proximity = colorsrc.getProximity();
+    Dynamics.DataBus.closestColor = colorsrc.getColor();
+    Dynamics.DataBus.colorposition = colorsrc.getCIEColor(); 
   }
 
   public void addMatchColor(double red, double green, double blue){
@@ -236,25 +236,24 @@ private void coloravg_lowfreq(int counts){
 
   //needs some work, and thought on what should be returned, where, and how this will integrate elsewhere
   //Unsure about if using the "double arrays" for the color calibration will work at this point, further testing needed
-  public String colorCompare(){
-    double[] ycal = Constants.yellow;
-    double[] gcal = Constants.green;
-    double[] ccal = Constants.cyan;
-    double[] rcal = Constants.red;
-    double red1 = redadv(true);
-    double green1 = greenadv(true);
-    double blue1 = blueadv(true);
-    if (red1<ycal[0] & red1>ycal[1] & green1<ycal[2] & green1>ycal[3] & blue1>ycal[4] & blue1<ycal[5]){
-    return "Yellow";
-    }else if (red1<gcal[0] & red1>gcal[1] & green1<gcal[2] & green1>gcal[3] & blue1<gcal[4] & blue1>gcal[5]){
-    return "Green";
-    }else if (red1<ccal[0] & red1>ccal[1] & green1<ccal[2] & green1>ccal[3] & blue1<ccal[4] & blue1>ccal[5]){
-    return "Cyan";
-    }else if (red1<rcal[0] & red1>rcal[1] & green1<rcal[2] & green1>rcal[3] & blue1<rcal[4] & blue1>rcal[5]){
-    return "Red";
-    }else{
-    return "None";
-    }
-  }
+  // public String colorCompare(){
+  //   double[] ycal = Constants.yellow;
+  //   double[] gcal = Constants.green;
+  //   double[] ccal = Constants.cyan;
+  //   double[] rcal = Constants.red;
+  //   double red1 = redadv(true);
+  //   double green1 = greenadv(true);
+  //   double blue1 = blueadv(true);
+  //   if (red1<ycal[0] & red1>ycal[1] & green1<ycal[2] & green1>ycal[3] & blue1>ycal[4] & blue1<ycal[5]){
+  //   return "Yellow";
+  //   }else if (red1<gcal[0] & red1>gcal[1] & green1<gcal[2] & green1>gcal[3] & blue1<gcal[4] & blue1>gcal[5]){
+  //   return "Green";
+  //   }else if (red1<ccal[0] & red1>ccal[1] & green1<ccal[2] & green1>ccal[3] & blue1<ccal[4] & blue1>ccal[5]){
+  //   return "Cyan";
+  //   }else if (red1<rcal[0] & red1>rcal[1] & green1<rcal[2] & green1>rcal[3] & blue1<rcal[4] & blue1>rcal[5]){
+  //   return "Red";
+  //   }else{
+  //   return "None";
+  //   }
+  // }
 }
-

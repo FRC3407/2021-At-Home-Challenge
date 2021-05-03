@@ -5,33 +5,33 @@
 package frc.robot.commands.controller;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.Dynamics;
 
 public class DriveMode extends CommandBase {
   private boolean left, right, finished = false;
   /** Creates a new DriveMode. */
-  public DriveMode(boolean leftbutton, boolean rightbutton) {
+  public DriveMode(boolean leftbuttonpressed, boolean rightbuttonpressed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    left = leftbutton;
-    right = rightbutton;
+    left = leftbuttonpressed;
+    right = rightbuttonpressed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     int index = Dynamics.dmode_index;
-    int size = (Constants.drivemodes.length)-1;
+    int size = (Constants.DriveModes.values().length)-1;
     //increment index based on input
     if(left){index -=1;}
     else if(right){index +=1;}
     //clamp index to array size limits
-    if(index>size){index = size;}
-    else if(index<0){index = 0;}
+    index = MathUtil.clamp(index, 0, size);
     //save index
     Dynamics.dmode_index = index;
     //set drivemode
-    Dynamics.drivemode = Constants.drivemodes[index];
+    Dynamics.drivemode = Constants.DriveModes.values()[index];
     System.out.println((String.valueOf(Dynamics.drivemode)) + " mode");
     finished = true;
   }

@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public class MotorAttatchments extends SubsystemBase {
   //add motors here when needed
-  private TalonSRX falcon1 = new TalonSRX(Constants.falcon1_canid);
-  private TalonSRX falcon2 = new TalonSRX(Constants.falcon2_canid);
+  private TalonSRX falcon1 = new TalonSRX(Constants.Attachments.falcon1_canid);
+  private TalonSRX falcon2 = new TalonSRX(Constants.Attachments.falcon2_canid);
 
 
   /** Creates a new MotorAttatchments. */

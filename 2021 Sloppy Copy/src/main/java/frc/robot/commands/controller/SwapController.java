@@ -23,16 +23,6 @@ public class SwapController extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.teleop_drive.cancel();
-    if(Dynamics.controllerlayout.equals("xbox")){
-      Dynamics.controllerlayout = "logitech";
-    }else if(Dynamics.controllerlayout.equals("logitech")){
-      Dynamics.controllerlayout = "xbox";
-    }
-    //RobotContainer.dynamics.setmode(Dynamics.controllerlayout);
-    //RobotContainer.input.updateButtons();
-    System.out.println("layout swaped");
-    RobotContainer.teleop_drive.schedule();
     finished = true;
   }
 

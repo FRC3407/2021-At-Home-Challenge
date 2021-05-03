@@ -49,7 +49,7 @@ public class RobotContainer {
   }
 
   private void instantiateCommands(){
-    decelerate = new Decelerate(Dynamics.deceleration_mult);
+    decelerate = new Decelerate(Constants.deceleration_const);
     straight = new GyroStraight(0.2, 0.2);
     testurn = new GyroTurn(0.2, -0.2, 10);
     drivemode_left = new DriveMode(true, false);
@@ -73,16 +73,16 @@ public class RobotContainer {
   }
 
   private void registerSubsystems(){
-    if(Dynamics.db_periodic){
+    if(Constants.DriveBase.periodic){
       db_main.register();
     }
-    if(Dynamics.colorsrc_periodic){
-      colorsrc.register();
-    }
-    if(Dynamics.imu_periodic){
+    // if(Dynamics.colorsrc_periodic){
+    //   colorsrc.register();
+    // }
+    if(Constants.IMU.periodic){
       imu.register();
     }
-    if(Dynamics.input_periodic){
+    if(Constants.GeneralInput.periodic){
       input.register();
     }
   }
