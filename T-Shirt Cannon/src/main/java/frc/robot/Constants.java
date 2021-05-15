@@ -4,21 +4,10 @@
 
 package frc.robot;
 
-import com.analog.adis16470.frc.ADIS16470_IMU.ADIS16470CalibrationTime;
-import com.analog.adis16470.frc.ADIS16470_IMU.IMUAxis;
-import com.revrobotics.ColorSensorV3.ColorSensorMeasurementRate;
-import com.revrobotics.ColorSensorV3.ColorSensorResolution;
-import com.revrobotics.ColorSensorV3.GainFactor;
-
-import edu.wpi.first.wpilibj.I2C;
-
-/** This file containens all variables used that are CONSTANT. These should not be changed when the program is running, those variables are in DYNAMICS. 
- *  Variables that are likely to be changed most often (between robot runs) are at the top, variables that will likely never be changed are at the bottom. 
- */
 public final class Constants{
 
     public static final class GeneralInput {
-        public static final double sensitivity = 0.5;
+        public static final double sensitivity = -0.5;
         public static final double deadzone = 0.3;
         public static final int smoothing = 2; //(power)
 
@@ -39,46 +28,23 @@ public final class Constants{
     }
 
     public static final class DriveBase{
-        public static final int frontleft = 3;
-        public static final int frontright = 1;
-        public static final int backleft = 2;
-        public static final int backright = 0;
+        public static final int left = 0;
+        public static final int right = 1;
 
-        public static final boolean invert_left = true;
-        public static final boolean invert_right = true;
+        public static final boolean invert_left = false;
+        public static final boolean invert_right = false;
 
         public static final boolean periodic = false;
     }
 
-    public static final class Attachments{
-        public static final int falcon1_canid = 0;
-        public static final int falcon2_canid = 1;
-    }
-
-    public static final class Cameras{
-        public static final int cam1_port = 0;
-        public static final int cam2_port = 1;
-        public static final int cam3_port = 2;
-    }
-
-    public static final class ColorSensor{
-        public static final I2C.Port location = I2C.Port.kOnboard;
-        public static final ColorSensorResolution resolution = ColorSensorResolution.kColorSensorRes20bit;
-        public static final ColorSensorMeasurementRate samplerate = ColorSensorMeasurementRate.kColorRate25ms;
-        public static final GainFactor gain = GainFactor.kGain1x;
-
-        public static final boolean periodic = false;
-    }
-
-    public static final class Ultrasonic{
-        public static final int port = 0;
-    }
-
-    public static final class IMU{
-        public static final IMUAxis yaw = IMUAxis.kZ;
-        public static final ADIS16470CalibrationTime calibrationtime = ADIS16470CalibrationTime._8s;
-
-        public static final boolean periodic = false;
+    public static final class Pneumatics{
+        public static final int compressor = 0;
+        public static final int solenoid1 = 0;
+        public static final int solenoid2 = 1;
+        public static final int solenoid3 = 2;
+        public static final int solenoid4 = 3;
+        
+        public static final double releasetime = 0.1;
     }
      
     //Xbox controller layout - can also apply to the logitech controller if it is switched that way with the switch on the back of it

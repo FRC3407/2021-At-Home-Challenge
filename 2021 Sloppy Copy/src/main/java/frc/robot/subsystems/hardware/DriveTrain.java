@@ -39,7 +39,7 @@ public class DriveTrain extends SubsystemBase {
   /**https://www.desmos.com/calculator/x7irxhldzv
    * **/
   public double boostAlg(double input){
-    return MathUtil.clamp((input + Constants.boost)/MathUtil.clamp(((Constants.boost + Math.abs(Constants.GeneralInput.sensitivity))/Constants.speed_cap), 0.5, 1.375), -Constants.speed_cap, Constants.speed_cap);
+    return MathUtil.clamp((input + Math.copySign(input, Constants.boost))/MathUtil.clamp(((Constants.boost + Math.abs(Constants.GeneralInput.sensitivity))/Constants.speed_limit), 0.5, 1.375), -Constants.speed_limit, Constants.speed_limit);
   }
 
   public void tank_drive(double left_speed, double right_speed){
