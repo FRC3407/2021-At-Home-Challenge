@@ -12,42 +12,38 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Pneumatics extends SubsystemBase {
 
   private Compressor Comp = new Compressor(Constants.Pneumatics.compressor);
-  private Solenoid Sol1 = new Solenoid(Constants.Pneumatics.solenoid1);
-  private Solenoid Sol2 = new Solenoid(Constants.Pneumatics.solenoid2);
-  private Solenoid Sol3 = new Solenoid(Constants.Pneumatics.solenoid3);
-  private Solenoid Sol4 = new Solenoid(Constants.Pneumatics.solenoid4);
+  private Solenoid[] Cannons = new Solenoid[4];
   
-  public Pneumatics() {}
+  public Pneumatics() {
+    Cannons[0] = new Solenoid(Constants.Pneumatics.solenoid1);
+    Cannons[1] = new Solenoid(Constants.Pneumatics.solenoid2);
+    Cannons[2] = new Solenoid(Constants.Pneumatics.solenoid3);
+    Cannons[3] = new Solenoid(Constants.Pneumatics.solenoid4);
+  }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic() {}
+
+  public void openSolenoid(int id){
+    Cannons[id].set(true);
   }
 
-  public void setSolenoid1(boolean open){
-    Sol1.set(open);
+  public void closeSolenoid(int id){
+    Cannons[id].set(false);
   }
 
-  public void setSolenoid2(boolean open){
-    Sol2.set(open);
+  public void startCompressor(){
+    Comp.setClosedLoopControl(true);
   }
 
-  public void setSolenoid3(boolean open){
-    Sol3.set(open);
+  public void stopCompressor(){
+    Comp.setClosedLoopControl(false);
   }
 
-  public void setSolenoid4(boolean open){
-    Sol4.set(open);
-  }
-
-  public void setCompressor(boolean status){
-    Comp.setClosedLoopControl(status);
-  }
-
-  public void safemode(){
-    Sol1.set(false);
-    Sol2.set(false);
-    Sol3.set(false);
-    Sol4.set(false);
+  public void safeMode(){
+    for (int i=0; i<=Cannons.length; i++){
+      closeSolenoid(i);
+    }
+    stopCompressor();
   }
 }

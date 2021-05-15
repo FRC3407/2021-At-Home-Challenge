@@ -26,9 +26,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    input.getInput().getButton1().whenPressed(new Shoot1());
-    input.getInput().getButton2().whenPressed(new Shoot2());
-    input.getInput().getButton3().whenPressed(new Shoot3());
-    input.getInput().getButton4().whenPressed(new Shoot4());
+    input.getInput().getButton1().whenPressed(new ShootCannon(Constants.Pneumatics.solenoid1));
+    input.getInput().getButton2().whenPressed(new ShootCannon(Constants.Pneumatics.solenoid2));
+    input.getInput().getButton3().whenPressed(new ShootCannon(Constants.Pneumatics.solenoid3));
+    input.getInput().getButton4().whenPressed(new ShootCannon(Constants.Pneumatics.solenoid4));
+    input.getInput().getUtility1().whenPressed(new StartCompressor());
+    input.getInput().getUtility2().whenPressed(new StopCompressor());
   }
 }

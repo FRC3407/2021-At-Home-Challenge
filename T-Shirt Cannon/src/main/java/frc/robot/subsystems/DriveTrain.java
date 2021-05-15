@@ -11,14 +11,11 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.Constants;
 
 public class DriveTrain extends SubsystemBase {
-  //DriveBase motors and groups setup
   private SpeedController left = new PWMVictorSPX(Constants.DriveBase.left);
   private SpeedController right = new PWMVictorSPX(Constants.DriveBase.right);
   
   private DifferentialDrive drive_main = new DifferentialDrive(left, right);
 
-//Constructor method
-  /** Creates a new DriveTrain. */
   public DriveTrain(){
     right.setInverted(Constants.DriveBase.invert_right);
     left.setInverted(Constants.DriveBase.invert_left);

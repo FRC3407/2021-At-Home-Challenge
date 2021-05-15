@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Dynamics;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveModes;
 
@@ -18,24 +18,14 @@ public class TeleopDrive extends CommandBase {
 
   @Override
   public void execute() {
-    double lstick_Y = RobotContainer.input.getInput().getPriY();
-    double rstick_Y = RobotContainer.input.getInput().getSecY();
-    //double lstick_X = RobotContainer.input.getInput().getPriX();
-    double rstick_X = RobotContainer.input.getInput().getSecX();
-    double ltrigger = RobotContainer.input.getInput().getPriTrigger();
-    double rtrigger = RobotContainer.input.getInput().getSecTrigger();
-    if(Dynamics.drivemode == DriveModes.Tank){
-      RobotContainer.db_main.tank_drive(lstick_Y, rstick_Y);
-    }else if(Dynamics.drivemode == DriveModes.Arcade){
-      RobotContainer.db_main.arcade_drive(rstick_Y, rstick_X);
-    }else if(Dynamics.drivemode == DriveModes.Race){
-      RobotContainer.db_main.race_drive(ltrigger, rtrigger, rstick_X);
-    }else if(Dynamics.drivemode == DriveModes.Trigger){
-      RobotContainer.db_main.trigger_drive(ltrigger, rtrigger);
+    if(Constants.default_mode == DriveModes.Tank){
+      RobotContainer.db_main.tank_drive(RobotContainer.input.getInput().getPriY(), RobotContainer.input.getInput().getSecY());
+    }else if(Constants.default_mode == DriveModes.Arcade){
+      RobotContainer.db_main.arcade_drive(RobotContainer.input.getInput().getSecY(), RobotContainer.input.getInput().getSecX());
     }else{
       System.out.println("Drivemode Error");
     }
-   }
+  }
 
   @Override
   public void end(boolean interrupted) {

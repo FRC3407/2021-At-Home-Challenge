@@ -53,7 +53,7 @@ public class TeleopDrive extends CommandBase {
     }else{
       System.out.println("Drivemode Error");
     }
-   }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

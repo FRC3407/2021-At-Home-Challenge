@@ -22,9 +22,7 @@ public final class Constants{
 
     public enum DriveModes{
         Tank,
-        Arcade,
-        Race,
-        Trigger;
+        Arcade;
     }
 
     public static final class DriveBase{

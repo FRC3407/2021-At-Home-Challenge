@@ -17,28 +17,32 @@ import edu.wpi.first.wpilibj.I2C;
  */
 public final class Constants{
 
-    public static final class GeneralInput {
+    public static class GeneralInput {
         public static final double sensitivity = 0.5;
         public static final double deadzone = 0.3;
         public static final int smoothing = 2; //(power)
 
         public static final boolean periodic = false;
+        public int smoothing(){return 2;}
+        public static double deadzone(){return 0.2;}
+        public static double sensitivity(){return -0.5;}
+
+        public static final boolean periodic() {
+            return false;
+        }
     }
-    
+
     public static final boolean default_smoothing = false;
     public static final DriveModes default_mode = DriveModes.Tank;
     public static final double deceleration_const = 0.98;
     public static final double speed_limit = 0.8;
     public static final double boost = 0.3;
 
-    public enum DriveModes{
-        Tank,
-        Arcade,
-        Race,
-        Trigger;
+    public enum DriveModes {
+        Tank, Arcade, Race, Trigger;
     }
 
-    public static final class DriveBase{
+    public static final class DriveBase {
         public static final int frontleft = 3;
         public static final int frontright = 1;
         public static final int backleft = 2;
@@ -50,18 +54,18 @@ public final class Constants{
         public static final boolean periodic = false;
     }
 
-    public static final class Attachments{
+    public static final class Attachments {
         public static final int falcon1_canid = 0;
         public static final int falcon2_canid = 1;
     }
 
-    public static final class Cameras{
+    public static final class Cameras {
         public static final int cam1_port = 0;
         public static final int cam2_port = 1;
         public static final int cam3_port = 2;
     }
 
-    public static final class ColorSensor{
+    public static final class ColorSensor {
         public static final I2C.Port location = I2C.Port.kOnboard;
         public static final ColorSensorResolution resolution = ColorSensorResolution.kColorSensorRes20bit;
         public static final ColorSensorMeasurementRate samplerate = ColorSensorMeasurementRate.kColorRate25ms;
@@ -70,24 +74,24 @@ public final class Constants{
         public static final boolean periodic = false;
     }
 
-    public static final class Ultrasonic{
+    public static final class Ultrasonic {
         public static final int port = 0;
     }
 
-    public static final class IMU{
+    public static final class IMU {
         public static final IMUAxis yaw = IMUAxis.kZ;
         public static final ADIS16470CalibrationTime calibrationtime = ADIS16470CalibrationTime._8s;
 
         public static final boolean periodic = false;
     }
-     
-    //Xbox controller layout - can also apply to the logitech controller if it is switched that way with the switch on the back of it
-    public static final class Xbox{
+
+    // Xbox controller layout - can also apply to the logitech controller if it is
+    // switched that way with the switch on the back of it
+    public static final class Xbox extends GeneralInput {
         public static final int Port = 0;
 
-        public static final double sensitivity = GeneralInput.sensitivity;
-        public static final double deadzone = GeneralInput.deadzone;
-        public static final int smoothing = GeneralInput.smoothing;
+        @Override
+        public int smoothing(){return 0;}
 
         public static final int LX = 0;
         public static final int LY = 1;
