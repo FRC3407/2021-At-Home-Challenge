@@ -113,7 +113,7 @@ public final class Constants{
     }
 
     //The layout for the logitech controller when not in xbox layout
-    public static final class Logi{
+    public static final class Logi {
         public static final int Port = 1;
 
         public static final double sensitivity = GeneralInput.sensitivity;
@@ -141,7 +141,7 @@ public final class Constants{
     }
 
     //"Logitech Atk3" arcade stick layout - "Top" means that the button is on the head of the stick, S-Axis is the slider on the back
-    public static final class Atk3{
+    public static final class Atk3 {
         public static final int[] Port = {3, 4};
 
         public static final double sensitivity = GeneralInput.sensitivity;
@@ -167,7 +167,7 @@ public final class Constants{
     }
 
     //"Extreme 3D Pro" arcade stick layout - "Top" means on the top of the stick, S-Axis is the slider on the back
-    public final class Ex3d{
+    public final class Ex3d {
         public static final int Port = 2;
 
         public static final double sensitivity = GeneralInput.sensitivity;

@@ -48,7 +48,7 @@ namespace controller{
 
     constexpr int controller_port = 0;
 
-    //string drivemodes[] = {"tank", "arcade", "race", "trigger"};
+    //std::string drivemodes[] = {"tank", "arcade", "race", "trigger"};
 
     //xbox controller keybinds
     constexpr int x_controllerButton_A = 1;

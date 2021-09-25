@@ -1,0 +1,35 @@
+Input device found!
+Name: Xbox Controller
+Port: 0
+Type id: 21
+Connected?: 1
+Axis count: 6
+Button count: 10
+POV count: 1
+
+Input device found!
+Name: Keyboard 0
+Port: 1
+Type id: 20
+Connected?: 1
+Axis count: 3
+Button count: 4
+POV count: 1
+
+Input device found!
+Name: Keyboard 1
+Port: 2
+Type id: 20
+Connected?: 1
+Axis count: 2
+Button count: 4
+POV count: 0
+
+Input device found!
+Name: Keyboard 2
+Port: 3
+Type id: 20
+Connected?: 1
+Axis count: 2
+Button count: 6
+POV count: 0

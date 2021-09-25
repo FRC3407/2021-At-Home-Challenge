@@ -6,9 +6,10 @@ package frc.robot.subsystems.input;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants;
 
 public class Input extends SubsystemBase {
     private InputBase Controller;

@@ -48,6 +48,21 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
+  private void registerSubsystems(){
+    if(Constants.DriveBase.periodic){
+      db_main.register();
+    }
+    // if(Dynamics.colorsrc_periodic){
+    //   colorsrc.register();
+    // }
+    if(Constants.IMU.periodic){
+      imu.register();
+    }
+    if(Constants.GeneralInput.periodic){
+      input.register();
+    }
+  }
+
   private void instantiateCommands(){
     decelerate = new Decelerate(Constants.deceleration_const);
     straight = new GyroStraight(0.2, 0.2);
@@ -70,21 +85,6 @@ public class RobotContainer {
     //input.obj.getButton1().whenPressed(stop);
     input.getInput().getUtility1().whenPressed(drivemode_left);
     input.getInput().getUtility2().whenPressed(drivemode_right);
-  }
-
-  private void registerSubsystems(){
-    if(Constants.DriveBase.periodic){
-      db_main.register();
-    }
-    // if(Dynamics.colorsrc_periodic){
-    //   colorsrc.register();
-    // }
-    if(Constants.IMU.periodic){
-      imu.register();
-    }
-    if(Constants.GeneralInput.periodic){
-      input.register();
-    }
   }
 
   /**
