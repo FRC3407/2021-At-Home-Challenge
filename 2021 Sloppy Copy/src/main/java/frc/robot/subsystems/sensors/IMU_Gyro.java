@@ -210,7 +210,7 @@ public class IMU_Gyro extends SubsystemBase {
   //   dt = 0.02;
 
   //   //run a loop of ten
-  //   while(i++ <=9){
+  //   while(i++ < 10){
   //     //fill up array with values from imu (there are ten spots and the loop runs 10 times)
   //     accelX[i] = imu.getAccelInstantX() * 9.81;
   //     accelY[i] = imu.getAccelInstantY() * 9.81;

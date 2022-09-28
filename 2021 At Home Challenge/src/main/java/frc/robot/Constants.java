@@ -81,9 +81,6 @@ public final class Constants{
 
 
     // * * * * Controller Layouts * * * * 
-    
-        //drivemodes
-        public static String drivemodes[] = {"tank", "arcade", "race", "trigger"};
 
         //xbox controller keybinds
         public static final int x_controllerButton_A = 1;

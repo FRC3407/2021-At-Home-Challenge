@@ -4,20 +4,16 @@
 
 package frc.robot.commands.controller;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Dynamics;
 
-public class CancelAll extends CommandBase {
-
-  /** Creates a new CancelAll. */
-  public CancelAll() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+public class DModeUp extends CommandBase {
+  public DModeUp() {}
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().cancelAll();
+    Dynamics.DModeHandler.increment();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -27,7 +23,7 @@ public class CancelAll extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Canceled all scheduled tasks");
+    System.out.println("Changed drivemode: " + Dynamics.DModeHandler.getMode());
   }
 
   // Returns true when the command should end.

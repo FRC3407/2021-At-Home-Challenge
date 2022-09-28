@@ -1,259 +1,297 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Button;
-//import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation;
 
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+//import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 
-import frc.robot.commands.*;
+//import frc.robot.commands.*;
 
-public class Input {
+public class Input implements Constants.Controls {
+
+    private static final DriverStation source = DriverStation.getInstance();
+    private final Constants.Controls controller;
+
     //this class maps integers above the normal button counts to any POV's on the device so that they can be used as normal buttons
-    public class XButton extends Button{
-        private final GenericHID device;
-        private final int button;
+    public static class XButton extends Button {
+
+        private final int device, button;
         private final boolean use_pov;
 
-        public XButton(GenericHID device, int button) {
-            requireNonNullParam(device, "joystick", "JoystickButton");
-
-            System.out.println("Buttons: " + device.getButtonCount());
-            System.out.println("POV's: " + device.getPOVCount());
-
+        public XButton(int device, int button) {
             this.device = device;
-            this.use_pov = ((button > device.getButtonCount()) && (button <= device.getButtonCount() + (device.getPOVCount() * 4)));
+            int _bc = source.getStickButtonCount(this.device), _pc = source.getStickPOVCount(this.device);
+            this.use_pov = ((button > _bc) && (button <= _bc + (_pc * 4)));
             if (use_pov) {
-                this.button = button - device.getButtonCount();
+                this.button = button - _bc;
             } else {
                 this.button = button;
             }
-            System.out.println(use_pov);
+
+            // System.out.println("Buttons: " + _bc);
+            // System.out.println("POV's: " + _pc);
+            // System.out.println(use_pov);
+        }
+        public XButton(GenericHID device, int button) {
+            this.device = device.getPort();
+            int _bc = source.getStickButtonCount(this.device), _pc = source.getStickPOVCount(this.device);
+            this.use_pov = ((button > _bc) && (button <= _bc + (_pc * 4)));
+            if (use_pov) {
+                this.button = button - _bc;
+            } else {
+                this.button = button;
+            }
+
+            // System.out.println("Buttons: " + _bc);
+            // System.out.println("POV's: " + _pc);
+            // System.out.println(use_pov);
         }
 
         @Override
         public boolean get() {
             if (use_pov) {
-                return (this.device.getPOV(button / 4) / 90.0 + 1) == this.button;
+                return (source.getStickPOV(this.device, button / 4) / 90.0 + 1) == this.button;
             } else {
-                return device.getRawButton(button);
+                return source.getStickButton(this.device, button);
             }
         }
     }
 
-    // public interface RequiredControl {
-    //     double getAxis(int axis);
-
-    //     XButton hatchPistonIn();
-    //     XButton hatchPistonOut();
+    private static class XboxType implements Constants.Controls {
+        private static enum Digital {
+            LB(5), RB(6), LS(9), RS(10),
+            A(1), B(2), X(3), Y(4),
+            BACK(7), START(8),
+            DT(11), DR(12), DB(13), DL(14);     // Dpad buttons (only valid with XButton objects)
         
-    //     XButton hatchGrabOpen();
-    //     XButton hatchGrabClose();
+            public final int value;
+            private Digital(int value) {
+                this.value = value;
+            }
+        }
+        private static enum Analog {
+            LX(0), RX(4), LY(1), RY(5), LT(2), RT(3);
         
-    //     XButton armsPistonToggle();
+            public final int value;
+            private Analog(int value) {
+                this.value = value;
+            }
+        }
 
-    //     XButton cargoIn();
-    //     XButton cargoOut();
+        private final int id;
 
-    //     XButton elevatorUp();
-    //     XButton elevatorDown();
+        public XboxType(int id) {
+            this.id = id;
+        }
 
-    //     XButton speedToggle();
-    // }
+        public double getAnalogLX() {
+            return source.getStickAxis(this.id, Analog.LX.value);
+        }
+        public double getAnalogLY() {
+            return source.getStickAxis(this.id, Analog.LY.value);
+        }
+        public double getAnalogRX() {
+            return source.getStickAxis(this.id, Analog.RX.value);
+        }
+        public double getAnalogRY() {
+            return source.getStickAxis(this.id, Analog.RY.value);
+        }
 
-    // private class Xbox implements RequiredControl { //TODO - the keybinds of this class are hard-coded, put them in constants
-    //     private XboxController device;
-    //     public Xbox(int port) {
-    //         device = new XboxController(port);
-    //     }
+        public XButton getSpeedToggle() {
+            return new XButton(this.id, Digital.A.value);
+        }
 
-    //     @Override
-    //     public double getAxis(int axis) {
-    //         return this.device.getRawAxis(axis);
-    //     }
+        public Input.XButton getDumpActuate() {
+            return new XButton(this.id, Digital.DT.value);
+        }
+        public Input.XButton getDumpReset() {
+            return new XButton(this.id, Digital.DB.value);
+        }
 
-    //     @Override 
-    //     public XButton hatchPistonIn() {
-    //         return new XButton(this.device, 13);    //bottom of POV
-    //     }
-    //     @Override
-    //     public XButton hatchPistonOut() {
-    //         return new XButton(this.device, 11);        //top of POV
-    //     }
-    //     @Override
-    //     public XButton hatchGrabOpen() {
-    //         return new XButton(this.device, 12);        //right of POV
-    //     }
-    //     @Override
-    //     public XButton hatchGrabClose() {
-    //         return new XButton(this.device, 14);        //left of POV
-    //     }
-    //     @Override
-    //     public XButton armsPistonToggle() {
-    //         return new XButton(this.device, 2);         //B
-    //     }
-    //     @Override
-    //     public XButton cargoIn() {
-    //         return new XButton(this.device, 3);         //X
-    //     }
-    //     @Override
-    //     public XButton cargoOut() {
-    //         return new XButton(this.device, 4);         //Y
-    //     }
-    //     @Override
-    //     public XButton elevatorUp() {
-    //         return new XButton(this.device, 6);         //RB
-    //     }
-    //     @Override
-    //     public XButton elevatorDown() {
-    //         return new XButton(this.device, 5);         //LB
-    //     }
-    //     @Override
-    //     public XButton speedToggle() {
-    //         return new XButton(this.device, 1);         //A
-    //     }
-    // }
-    // private class ControlBoard implements RequiredControl {
-    //     private Joystick stickL, stickR, stickE;
-    //     private int ac_l, ac_r, ac_e;
-    //     public ControlBoard(int s_left, int s_right) {
-    //         this.stickL = new Joystick(s_left);
-    //         this.stickR = new Joystick(s_right);
-    //         this.stickE = null;
+        public Input.XButton getEStop() {
+            return new XButton(this.id, Digital.BACK.value);
+        }
 
-    //         ac_l = stickL.getAxisCount();
-    //         ac_r = stickR.getAxisCount();
-    //         ac_e = 0;
-    //     }
-    //     public ControlBoard(int s_left, int s_right, int s_extra) {
-    //         this.stickL = new Joystick(s_left);
-    //         this.stickR = new Joystick(s_right);
-    //         this.stickE = new Joystick(s_extra);
-
-    //         ac_l = stickL.getAxisCount();
-    //         ac_r = stickR.getAxisCount();
-    //         ac_e = stickE.getAxisCount();
-    //     }
-
-    //     @Override
-    //     public double getAxis(int axis) {
-    //         if (axis <= ac_l) {
-    //             return stickL.getRawAxis(axis);
-    //         } else if ((axis - ac_l) <= ac_r) {
-    //             return stickR.getRawAxis(axis - ac_l);
-    //         } else if (stickE != null && (axis - (ac_l + ac_r) <= ac_e)) {
-    //             return stickE.getRawAxis(axis - (ac_l + ac_r));
-    //         } else {
-    //             System.out.println("ControlBoard could not find axis " + axis);
-    //             return 0;
-    //         }
-    //     }
-
-    //     @Override 
-    //     public XButton hatchPistonIn() {
-    //         return new XButton(this.stickL, Constants.hatchPistonIn);    
-    //     }
-    //     @Override
-    //     public XButton hatchPistonOut() {
-    //         return new XButton(this.stickL, Constants.hatchPistonOut);        
-    //     }
-    //     @Override
-    //     public XButton hatchGrabOpen() {
-    //         return new XButton(this.stickR, Constants.hatchGrabOpen1);        
-    //     }
-    //     @Override
-    //     public XButton hatchGrabClose() {
-    //         return new XButton(this.stickR, Constants.hatchGrabOpen1);        
-    //     }
-    //     @Override
-    //     public XButton armsPistonToggle() {
-    //         return new XButton(this.stickL, Constants.armsPistonToggle);         
-    //     }
-    //     @Override
-    //     public XButton cargoIn() {
-    //         return new XButton(this.stickL, Constants.cargoIn);         
-    //     }
-    //     @Override
-    //     public XButton cargoOut() {
-    //         return new XButton(this.stickL, Constants.cargoOut);         
-    //     }
-    //     @Override
-    //     public XButton elevatorUp() {
-    //         return new XButton(this.stickR, Constants.elevatorUp);         
-    //     }
-    //     @Override
-    //     public XButton elevatorDown() {
-    //         return new XButton(this.stickR, Constants.elevatorDown);         
-    //     }
-    //     @Override
-    //     public XButton speedToggle() {
-    //         return new XButton(this.stickR, Constants.speedToggle);         
-    //     }
-    // }
-
-    //instantiate commands here (create variables for each one)
-    // private CargoIntake cargo_in = new CargoIntake();
-    // private CargoOutput cargo_out = new CargoOutput();
-    // private CargoToggle cargo_arms = new CargoToggle();
-    // private ElevatorUp elevator_up = new ElevatorUp();
-    // private ElevatorDown elevator_down = new ElevatorDown();
-    // private HatchClose close_hatch = new HatchClose();
-    // private HatchOpen open_hatch = new HatchOpen();
-    // private HatchToggle hatch_out = new HatchToggle(true);
-    // private HatchToggle hatch_in = new HatchToggle(false);
-    // private SpeedToggle speed_toggle = new SpeedToggle();
-    // public TeleopDrive teleop_control = new TeleopDrive();
-
-    // private RequiredControl control;
-    // private void setupKeybinds() {  //setup what buttons do what inside here
-    //     this.control.hatchGrabOpen().whileHeld(this.open_hatch);
-    //     this.control.hatchGrabClose().whileHeld(this.close_hatch);
-    //     this.control.hatchPistonIn().whenPressed(this.hatch_in);
-    //     this.control.hatchPistonOut().whenPressed(this.hatch_out);
-
-    //     this.control.armsPistonToggle().whenPressed(this.cargo_arms);
-    //     this.control.cargoIn().whileHeld(this.cargo_in);
-    //     this.control.cargoOut().whileHeld(this.cargo_out);
-
-    //     this.control.elevatorUp().whileHeld(this.elevator_up);
-    //     this.control.elevatorDown().whileHeld(this.elevator_down);
-    //     this.control.speedToggle().whenPressed(this.speed_toggle);
-    // }
-
-    private TestCommand 
-        a = new TestCommand("A"),
-        rb = new TestCommand("RB"),
-        pov_180 = new TestCommand("POV_BOTTOM");
-
-    public XboxController input;
-    private XButton t1, t2, t3;
-    public Input(int port) {
-        // for (int i = 0; i < DriverStation.kJoystickPorts; i++) {}
-        // this.control = new Xbox(port);
-        // setupKeybinds();
-
-        input = new XboxController(port);
-
-        t1 = new XButton(input, 1);
-        t2 = new XButton(input, 6);
-        t3 = new XButton(input, 13);
-
-        t1.whileHeld(a);
-        t2.whileHeld(rb);
-        t3.whileHeld(pov_180);
+        public Input.XButton netVarIncrement() {
+            return new XButton(this.id, Digital.RB.value);
+        }
+        public Input.XButton netVarDecrement() {
+            return new XButton(this.id, Digital.LB.value);
+        }
     }
-    // public Input(int portl, int portr) {
-    //     // this.control = new ControlBoard(portl, portr);
-    //     // setupKeybinds();
-    // }
-    // public Input(int portl, int portr, int porte) {
-    //     // this.control = new ControlBoard(portl, portr, porte);
-    //     // setupKeybinds();
+    private static class DualType implements Constants.Controls {
+        private static enum Digital {
+            TRI(1), TB(2), TT(3), TL(4), TR(5),             // ~ trigger, top-bottom, top-top, top-left, top-right
+            B1(6), B2(7), B3(8), B4(9), B5(10), B6(11);     // ~ buttons on the base of the joystick (labeled)
+
+            public final int value;
+            private Digital(int value) {
+                this.value = value;
+            }
+        }
+        private static enum Analog {
+            X(0), Y(1), S(2);   // ~ X-Axis, Y-Axis, Slider thing on the bottom
+
+            public final int value;
+            private Analog(int value) {
+                this.value = value;
+            }
+        }
+
+        private final int l_id, r_id;
+
+        public DualType(int l_id, int r_id) {
+            this.l_id = l_id;
+            this.r_id = r_id;
+        }
+
+        public double getAnalogLX() {
+            return source.getStickAxis(this.l_id, Analog.X.value);
+        }
+        public double getAnalogLY() {
+            return source.getStickAxis(this.l_id, Analog.Y.value);
+        }
+        public double getAnalogRX() {
+            return source.getStickAxis(this.r_id, Analog.X.value);
+        }
+        public double getAnalogRY() {
+            return source.getStickAxis(this.r_id, Analog.Y.value);
+        }
+
+        public Input.XButton getSpeedToggle() {
+            return new XButton(this.r_id, Digital.TRI.value);
+        }
+
+        public Input.XButton getDumpActuate() {
+            return new XButton(this.r_id, Digital.TT.value);
+        }
+        public Input.XButton getDumpReset() {
+            return new XButton(this.r_id, Digital.TB.value);
+        }
+
+        public Input.XButton getEStop() {
+            return new XButton(this.l_id, Digital.TRI.value);
+        }
+
+        public Input.XButton netVarIncrement() {
+            return new XButton(this.r_id, Digital.TL.value);
+        }
+        public Input.XButton netVarDecrement() {
+            return new XButton(this.r_id, Digital.TL.value);
+        }
+    }
+    // private static class ErrorType implements Constants.Controls {
+    //     public double getAnalogLX() {
+    //         return 0;
+    //     }
+    //     public double getAnalogLY() {
+    //         return 0;
+    //     }
+    //     public double getAnalogRX() {
+    //         return 0;
+    //     }
+    //     public double getAnalogRY() {
+    //         return 0;
+    //     }
+
+    //     public Input.XButton getSpeedToggle() {
+    //         return null;
+    //     }
+
+    //     public Input.XButton getDumpActuate() {
+    //         return null;
+    //     }
+    //     public Input.XButton getDumpReset() {
+    //         return null;
+    //     }
+
+    //     public Input.XButton getEStop() {
+    //         return null;
+    //     }
     // }
 
-    // public RequiredControl getController() {
-    //     return this.control;
-    // }
+    private boolean checkValidJoysticks(String name) {
+        String[] valid = {"Attack3"};                   // MAKE SURE THESE NAMEs ARE CORRECT AND THE COMPARISSON ACTUALLY WORKS
+        for (int i = 0; i < valid.length; i++) {
+            if (name.equals(valid[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Input() {    // automatically search for patterns to determine input type
+        int detected = 0;
+        int[] jsticks = {-1, -1};
+        for (int i = 0; i < DriverStation.kJoystickPorts; i++) {
+            if (source.isJoystickConnected(i)) {
+                detected += 1;
+                if (source.getJoystickIsXbox(i)) {      // prioritze this because detection methods are most concrete
+                    this.controller = new XboxType(i);
+                    System.out.println("Xbox controller detected and initialized on port " + i); 
+                    return;                   
+                }
+                else if (checkValidJoysticks(source.getJoystickName(i))) {
+                    jsticks[1] = jsticks[0];
+                    jsticks[0] = i;
+                    if((jsticks[0] >= 0) && (jsticks[1] >= 0)) {
+                        this.controller = new DualType(jsticks[0], jsticks[1]);
+                        System.out.println("Joysticks on ports " + jsticks[0] + " and " + jsticks[1] + " detected and intialized");
+                        return;
+                    }
+                }
+            }
+        }
+        this.controller = null;
+        if (detected > 0) {
+            System.out.println(detected + " devices detected but none match a template type - add types or manual port assignments");
+        }
+        else {
+            System.out.println("No devices detected - plug in devices and restart the program");
+        }
+        // pause the program safely
+    }
+    public Input(int p) {
+        this.controller = new XboxType(p);
+    }
+    public Input(int p_left, int p_right) {
+        this.controller = new DualType(p_left, p_right);
+    }
+    // 3-Joystick control board?
+
+    public double getAnalogLX() {
+        return this.controller.getAnalogLX();
+    }
+    public double getAnalogLY() {
+        return this.controller.getAnalogLY();
+    }
+    public double getAnalogRX() {
+        return this.controller.getAnalogRX();
+    }
+    public double getAnalogRY() {
+        return this.controller.getAnalogRY();
+    }
+
+    public Input.XButton getSpeedToggle() {
+        return this.controller.getSpeedToggle();
+    }
+
+    public Input.XButton getDumpActuate() {
+        return this.controller.getDumpActuate();
+    }
+    public Input.XButton getDumpReset() {
+        return this.controller.getDumpReset();
+    }
+
+    public Input.XButton getEStop() {
+        return this.controller.getEStop();
+    }
+
+    public Input.XButton netVarIncrement() {
+        return this.controller.netVarIncrement();
+    }
+    public Input.XButton netVarDecrement() {
+        return this.controller.netVarDecrement();
+    }
 }

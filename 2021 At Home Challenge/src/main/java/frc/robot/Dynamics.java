@@ -32,8 +32,30 @@ public final class Dynamics{
 
         //controller layout startup stuff
         public static String controllerlayout = Constants.defaultcontrolmode;
-        public static int dmode_index = 0;
-        public static String drivemode = Constants.drivemodes[dmode_index];
+
+    public static class DModeHandler {
+        private static int index = 0;
+        public static enum DriveModes {
+            TANK,
+            ARCADE,
+            RACE,
+            TRIGGER
+        }
+
+        public static void increment() {    //return current value?
+            if((index + 1) <= (DriveModes.values().length)) {
+                index++;
+            }
+        }
+        public static void decrement() {    //return current value?
+            if((index - 1) >= 0) {
+                index--;
+            }
+        }
+        public static DriveModes getMode() {
+            return DriveModes.values()[index];
+        }
+    }
                     
         //sets automatic squaring inside the tankdrive and arcadedrive functions (turned off if it is aready done in controller input function)
         public static boolean default_squareinp = false;
